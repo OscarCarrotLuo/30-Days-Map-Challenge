@@ -1,0 +1,92 @@
+/* atlas.css supplies the Day 2 frame, typography and margin layout. */
+#school-map {
+  display: block;
+  width: var(--side);
+  height: var(--side);
+  background: #f8f8f4;
+  cursor: default;
+  outline: 1px solid #93938a;
+  outline-offset: -.5px;
+}
+#school-map.zoomed { cursor: grab; }
+#school-map.dragging, #school-map.dragging * { cursor: grabbing; }
+#school-map:focus-visible { outline: 1px solid var(--red); outline-offset: -2px; }
+.field text, .axis text, #scale text { font-family: inherit; font-weight: 500; fill: var(--ink); }
+.field .label { paint-order: stroke; stroke: #f8f8f4; stroke-width: 2.7; stroke-linejoin: round; }
+.field .village-id { font-weight: 700; }
+.field .affected .village-id, .field .gain-label, .field text.proposed { fill: var(--red); }
+.field .place-name { fill: #52554b; letter-spacing: .14em; }
+.field .facility-label, .field .road-label { fill: #5d5e54; }
+.field .elevation-label { fill: #6c6b5e; }
+.field .facility { cursor: help; }
+.field .map-detail { pointer-events: none; }
+.field .measure-label { font-weight: 700; }
+.field .village { cursor: pointer; }
+.field .village:hover .village-id, .field .village.selected .village-id { text-decoration: underline; }
+.field .selection-ring { visibility: hidden; }
+.field .selected .selection-ring { visibility: visible; }
+.field .survey-link { pointer-events: none; }
+
+.measurement p { text-transform: none; letter-spacing: normal; }
+.survey-reference { display: flex; flex-wrap: wrap; justify-content: center; align-items: start; gap: .85em .65em; }
+.place p { line-height: 1.3; }
+#locator { display: block; width: clamp(27px, 4.7vmin, 58px); height: auto; margin: 0 auto .4em; }
+.legend ul { list-style: none; display: grid; gap: .19em; text-align: left; }
+.legend li { display: flex; align-items: center; gap: .4em; }
+.legend li span { min-width: 0; }
+.key { flex: none; width: 1.55em; height: 1.1em; }
+.unit { text-transform: none; }
+.register th:first-child { width: 26%; }
+.register { container: distance-register / inline-size; }
+.short-column { display: none; }
+@container distance-register (max-width: 15.8em) {
+  .wide-column { display: none; }
+  .short-column { display: inline; }
+}
+@container distance-register (max-width: 155px) {
+  .register th, .register td { padding-inline: .1em; }
+  .register th { letter-spacing: .015em; }
+}
+.register-scroll { block-size: auto; max-height: 12.26em; }
+.register-foot { border-top: 1px solid var(--red-rule); padding: .29em .15em; }
+.register .positive { font-weight: 700; }
+.register tr.selected { background: #f3e1dd; }
+.register th, .register td { text-align: center; }
+.imprint h1 { text-transform: uppercase; text-wrap: balance; }
+html[data-export] .register-scroll { max-height: none !important; }
+
+@container (min-width: 390px) {
+  .sheet:not([data-foot]) .survey-reference {
+    display: grid;
+    grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr);
+    width: 100%;
+    gap: .5em;
+  }
+}
+
+@container (max-width: 444px) {
+  .sheet[data-foot] .notes {
+    grid-template-columns: minmax(0,.67fr) minmax(0,.88fr) minmax(0,1.55fr);
+    grid-template-areas: "scale scale scale" "place key register" "sources sources register" "imprint imprint imprint";
+    gap: clamp(8px, 2.7cqw, 12px) .8em;
+  }
+  .sheet[data-foot] .survey-reference { display: contents; }
+  .sheet[data-foot] .place { grid-area: place; align-self: start; }
+  .sheet[data-foot] .legend { grid-area: key; align-self: start; }
+}
+
+@media (orientation: landscape) and (max-height: 460px) {
+  @container (max-width: 290px) {
+    .notes {
+      grid-template-areas: "scale scale" "key register" "place sources" "imprint imprint";
+      row-gap: 6px;
+    }
+    .survey-reference { display: contents; }
+    .place { grid-area: place; }
+    .legend { grid-area: key; }
+  }
+}
+
+@media print {
+  .register-scroll { max-height: none !important; overflow: visible; }
+}

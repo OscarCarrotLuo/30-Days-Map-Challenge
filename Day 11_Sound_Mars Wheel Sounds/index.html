@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Where on Mars Were the Wheels Heard? · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/survey.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="Day 11 · Sound · Mars 2020 Perseverance">
+  <figure class="plate" aria-label="Early drives across the floor of Jezero Crater">
+    <div id="map" class="map" role="region" tabindex="0" aria-label="Perseverance traverse map, north up" aria-describedby="map-help">
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <span class="sr-only" id="map-help">Sol 16 is drawn in red between the Sol 15 and Sol 16 endpoints. Other drives are white. Drag or use arrow keys to pan. Scroll, pinch or use plus and minus to zoom. Home restores the four drives. The drive index selects individual segments.</span>
+    </div>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="map-status" role="status" hidden></output>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement" aria-labelledby="scale-heading">
+        <h2 id="scale-heading">Scale in metres</h2>
+        <canvas id="scale" role="img" aria-label="Distance scale"></canvas>
+        <p>Contour interval 0.5 metres</p>
+      </section>
+      <section class="sound" aria-labelledby="sound-heading">
+        <h2 id="sound-heading">Perseverance · Sol 16 driving sounds</h2>
+        <div class="wave-field">
+          <canvas id="wave" aria-hidden="true"></canvas>
+          <input id="seek" type="range" min="0" max="85" value="0" step="0.01" aria-label="Seek in the Sol 16 recording" aria-valuetext="0 minutes 0 seconds of 1 minute 25 seconds">
+        </div>
+        <div class="transport">
+          <button id="play" type="button"><span class="play-mark" aria-hidden="true"></span><span id="play-label">Play clip</span></button>
+          <output id="clock" aria-label="Playback time" aria-live="off">0:00 / 1:25</output>
+          <a class="source-link" href="https://science.nasa.gov/resource/sounds-of-perseverance-mars-rover-driving-sol-16-16-minutes/" target="_blank" rel="noopener" aria-label="Listen to the full, unfiltered recording at NASA">Full recording</a>
+        </div>
+        <p class="record-info">07 March 2021 · EDL microphone · Edited highlights</p>
+        <p id="audio-error" role="status" hidden>Audio unavailable. <a href="https://science.nasa.gov/resource/sounds-of-perseverance-mars-rover-driving-sol-16-90-second-highlights/" target="_blank" rel="noopener">Listen at NASA</a></p>
+        <audio id="audio" src="assets/sol16.mp3" preload="metadata"></audio>
+      </section>
+      <section class="locator" aria-labelledby="locator-heading">
+        <h2 id="locator-heading">Location diagram</h2>
+        <div class="locators">
+          <div class="inset"><span class="mini"><img src="assets/mars.webp" alt="MOLA relief globe with Jezero marked northeast of disc centre"><span class="cross" id="globe-fix"></span></span><span>Mars</span></div>
+          <div class="inset"><span class="mini crater"><img src="assets/crater.webp" alt="72-kilometre relief view of Jezero Crater, with the drive area marked on its western floor"><span class="cross" id="crater-fix"></span></span><span>Jezero</span></div>
+        </div>
+        <div class="centre"><h2>Map centre</h2><p id="position"></p></div>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Drive index</h2>
+        <table aria-labelledby="register-heading">
+          <thead><tr><th scope="col">Sol</th><th scope="col">Drive, m</th><th scope="col">Total, m</th></tr></thead>
+          <tbody id="drive-rows"></tbody>
+        </table>
+        <button id="overview" type="button">Show all drives</button>
+      </section>
+      <section class="sources" aria-labelledby="source-heading">
+        <h2 id="source-heading">Data sources</h2>
+        <ul>
+          <li><a href="https://science.nasa.gov/mission/mars-2020-perseverance/location-map/" target="_blank" rel="noopener">NASA/JPL · Rover traverse</a></li>
+          <li><a href="https://doi.org/10.5066/P9QJDP48" target="_blank" rel="noopener">USGS · HiRISE orthomosaic</a></li>
+          <li><a href="https://astrogeology.usgs.gov/search/map/Mars/Mars2020/JEZ_hirise_soc_006_DTM_MOLAtopography_DeltaGeoid_1m_Eqc_latTs0_lon0_blend40" target="_blank" rel="noopener">USGS · HiRISE terrain model</a></li>
+          <li><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener">NASA Mars Trek · MOLA relief</a></li>
+        </ul>
+      </section>
+      <a class="listen" href="https://science.nasa.gov/resource/sounds-of-perseverance-mars-rover-driving-sol-16-90-second-highlights/" target="_blank" rel="noopener" aria-label="Open NASA's edited Sol 16 recording. The code links to the same listening page."><img src="assets/listen.png" alt="QR code for NASA’s Sol 16 wheel recording"><span>Listen at NASA</span></a>
+      <section class="imprint">
+        <h1 id="sheet-title">Where on Mars Were the Wheels Heard?</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+  <img src="assets/jezero.webp" id="ortho" alt="" hidden>
+</main>
+</body>
+</html>

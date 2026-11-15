@@ -1,0 +1,174 @@
+@font-face {
+  font-family: ChartBarlow;
+  src: url("assets/fonts/barlow-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: ChartBarlow;
+  src: url("assets/fonts/barlow-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+:root {
+  color-scheme: light;
+  --paper: #fff;
+  --ink: #232321;
+  --red: #983b35;
+  --red-rule: #c99b96;
+  --type: ChartBarlow, Arial, sans-serif;
+  --letter: clamp(8px, calc(7.15px + .26vmin), 10px);
+  --frame: clamp(15px, 4.8vmin, 80px);
+  --axis: clamp(17px, 2.6vmin, 27px);
+  --gutter: clamp(20px, 6.2vmin, 84px);
+  --rail: clamp(208px, max(30vw, calc(100vw - 100dvh - var(--gutter))), 510px);
+}
+* { box-sizing: border-box }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 500 var(--letter)/1.27 var(--type);
+  font-variant-numeric: lining-nums tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, p, ul, figure { margin: 0; padding: 0 }
+h1, h2, a, button, input, th, td { font: inherit; color: inherit }
+button { padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent }
+a { text-decoration: none; text-underline-offset: .22em }
+button:hover, a:hover { color: var(--red); text-decoration: underline; text-underline-offset: .22em }
+:focus-visible { outline: 1px solid var(--red); outline-offset: 2px }
+::selection { background: var(--red); color: var(--paper) }
+[hidden] { display: none !important }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%) }
+.sheet {
+  --side: 50vmin;
+  min-width: 0; width: 100%; min-height: 100vh; min-height: 100dvh;
+  padding: max(var(--frame), calc(var(--axis) + 5px));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(var(--axis) + clamp(13px, 2.3vmin, 29px));
+}
+.plate { position: relative; flex: none; width: var(--side) }
+.map {
+  position: relative; width: var(--side); aspect-ratio: 1; overflow: hidden;
+  background: #737270; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
+}
+.map.dragging { cursor: grabbing }
+#terrain { display: block; width: 100%; height: 100% }
+.axis { position: absolute; display: block; pointer-events: none }
+.longitude { top: 100%; left: 0; width: 100%; height: var(--axis) }
+.latitude { top: 0; right: 100%; width: var(--axis); height: 100% }
+#map-status { position: absolute; bottom: 0; right: 0; padding: 3px 5px; background: var(--paper) }
+.note-space { flex: none; width: min(100%, var(--foot-width, 990px)); container-type: inline-size }
+.notes {
+  display: grid;
+  grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr);
+  grid-template-areas: "scale scale" "sound sound" "locator register" "sources listen" "imprint imprint";
+  align-items: center; justify-items: center;
+  gap: clamp(12px, 4cqw, 24px) clamp(20px, 11cqw, 72px);
+  text-align: center;
+}
+.notes > * { min-width: 0 }
+.notes h2, .measurement p, .inset > span:last-child, .register th, .listen span {
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.notes h2 { margin-bottom: .45em }
+.measurement { grid-area: scale; width: min(100%, 36em) }
+#scale { display: block; width: 100%; height: 2.4em }
+.measurement p { margin-top: .1em }
+.sound { grid-area: sound; width: min(100%, 36em) }
+.sound h2 { color: var(--red) }
+.wave-field { position: relative; width: 100%; height: 6.45em }
+#wave { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none }
+#seek {
+  --inset: .95em;
+  position: absolute; left: var(--inset); top: 0; width: calc(100% - 2 * var(--inset)); height: 100%; margin: 0;
+  appearance: none; -webkit-appearance: none; background: transparent; border: 0; border-radius: 0; cursor: crosshair;
+  touch-action: pan-y; color: var(--red);
+}
+#seek::-webkit-slider-runnable-track { background: transparent; border: 0 }
+#seek::-webkit-slider-thumb { width: 1px; height: 1px; border: 0; -webkit-appearance: none; background: transparent }
+#seek::-moz-range-track { background: transparent; border: 0 }
+#seek::-moz-range-thumb { width: 1px; height: 1px; border: 0; background: transparent }
+#seek:focus-visible { outline-offset: 1px }
+.transport { display: flex; align-items: center; justify-content: space-between; gap: .6em; padding-inline: .9em }
+#play, .source-link { display: inline-flex; align-items: center; min-height: 2.35em }
+#play { gap: .55em; color: var(--red); font-weight: 700 }
+.play-mark { width: .8em; height: .82em; flex: none; position: relative }
+.play-mark::before { content: ''; display: block; border-style: solid; border-width: .41em 0 .41em .66em; border-color: transparent transparent transparent currentColor }
+#play[data-playing] .play-mark::before { box-sizing: border-box; height: .82em; width: .66em; border-width: 0 .23em; border-color: currentColor }
+#clock { white-space: nowrap; font-variant-numeric: tabular-nums }
+.source-link, .listen span, #audio-error a { text-decoration: underline; text-decoration-thickness: .6px; text-underline-offset: .23em }
+.record-info { margin-top: .04em; color: #51514e }
+#audio-error { color: var(--red); margin-top: .5em }
+.locator { grid-area: locator }
+.locators { display: flex; justify-content: center; gap: 1.1em }
+.inset { display: grid; justify-items: center; gap: .34em }
+.mini { position: relative; display: block; width: clamp(32px, 4.7vmin, 58px); aspect-ratio: 1 }
+.mini img { display: block; width: 100%; height: 100% }
+.mini.crater { border: .5px solid #969590 }
+.cross { position: absolute; width: .98em; height: .98em; transform: translate(-50%, -50%); pointer-events: none }
+.cross::before, .cross::after { content: ''; position: absolute; background: var(--red); box-shadow: 0 0 0 .5px #fff }
+.cross::before { left: 0; top: calc(50% - .6px); width: 100%; height: 1.2px }
+.cross::after { top: 0; left: calc(50% - .6px); width: 1.2px; height: 100% }
+.centre { margin-top: .85em }
+.centre h2 { margin-bottom: .1em }
+#position { white-space: nowrap }
+.register { grid-area: register; width: min(100%, 23em); color: var(--red); border: 1px solid var(--red-rule) }
+.register h2 { padding: .37em .15em; margin: 0; border-bottom: 1px solid var(--red-rule) }
+.register table { width: 100%; table-layout: fixed; border-collapse: collapse }
+.register th, .register td { padding: .11em .26em; line-height: 1.35; text-align: center; white-space: nowrap }
+.register th { border-bottom: 1px solid var(--red-rule); padding-block: .22em }
+.register th + th, .register td + td { border-left: 1px solid #e4ccc9 }
+.register th:first-child { width: 28% }
+.register tbody tr { cursor: pointer }
+.register tbody tr:hover, .register tbody tr:focus-within { background: #f9efed }
+.register tbody tr.recorded { background: #f3e1dd; font-weight: 700 }
+.register tr.is-selected td:first-child button { text-decoration: underline; text-underline-offset: .18em }
+.register td button { width: 100%; min-height: 1.45em; display: block }
+#overview { width: 100%; min-height: 2.05em; border-top: 1px solid var(--red-rule) }
+.sources { grid-area: sources }
+.sources ul { list-style: none; line-height: 1.42 }
+.listen { grid-area: listen; display: grid; justify-items: center; gap: .23em }
+.listen img { width: 6.15em; height: 6.15em; image-rendering: pixelated }
+.imprint { grid-area: imprint }
+.imprint h1 { margin-bottom: .35em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-wrap: balance }
+@container (max-width: 300px) {
+  .notes { column-gap: 1.6em; row-gap: 1.3em }
+  .register th { letter-spacing: .03em }
+  .locators { gap: .6em }
+  .mini { width: 3.4em }
+  #position { white-space: normal }
+}
+@container (min-width: 490px) {
+  .sheet[data-foot] .notes {
+    grid-template-columns: minmax(0,1fr) minmax(0,1.65fr) minmax(0,1fr);
+    grid-template-areas: "locator scale register" "locator sound register" "sources sound listen" "imprint imprint imprint";
+    column-gap: clamp(20px, 4.7cqw, 60px); row-gap: clamp(13px, 2.15cqw, 23px);
+  }
+}
+@media (min-aspect-ratio: 13/10), (orientation: landscape) and (max-height: 460px) {
+  .sheet { flex-direction: row; gap: var(--gutter) }
+  .note-space { width: var(--rail) }
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  :root { --letter: 10px }
+  #play, .source-link, #overview { min-height: 2.7em }
+  .register td button { min-height: 1.84em }
+}
+@media (max-height: 480px) and (orientation: landscape) {
+  :root { --frame: 10px; --axis: 16px; --gutter: clamp(14px, 4.5vmin, 23px); --rail: clamp(225px, 45vw, 435px) }
+  .sheet { padding-block: 11px 17px }
+  .notes { row-gap: .55em }
+  .notes h2 { margin-bottom: .3em }
+  .register h2, .centre h2 { margin-bottom: 0 }
+  .centre { margin-top: .45em }
+  .wave-field { height: 4.7em }
+  .mini { width: 3.2em }
+  .listen img { width: 5.25em; height: 5.25em }
+}
+@media print {
+  @page { size: landscape; margin: 0 }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact }
+  .sheet { min-height: 98vh; break-inside: avoid; flex-direction: row; gap: 4vw; padding: 3vh 4vw; --side: min(84vh, 55vw) !important }
+  .note-space { width: 32vw }
+  .map { cursor: default }
+}

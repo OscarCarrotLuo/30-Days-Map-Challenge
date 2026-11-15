@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Where Do Refugees from South Sudan Find Asylum? · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/network.js"></script>
+  <script defer src="atlas.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="30 Day Map Challenge · Day 24 · Networking">
+  <figure class="plate" aria-label="Global asylum network with an enlarged map of East Africa">
+    <div class="map" id="map">
+      <section class="panel" id="world-panel" tabindex="0" aria-labelledby="world-heading" aria-describedby="map-help">
+        <img id="world-texture" class="terrain" src="assets/world.webp" alt="" draggable="false">
+        <canvas class="overlay" aria-hidden="true"></canvas>
+        <h2 id="world-heading">Global asylum network</h2>
+        <canvas class="axis latitude" aria-hidden="true"></canvas>
+      </section>
+      <section class="panel" id="region-panel" tabindex="0" aria-labelledby="region-heading" aria-describedby="map-help">
+        <img id="region-texture" class="terrain" src="assets/east-africa.webp" alt="" draggable="false">
+        <canvas class="overlay" aria-hidden="true"></canvas>
+        <h2 id="region-heading">East Africa and neighbouring countries</h2>
+        <canvas class="axis latitude" aria-hidden="true"></canvas>
+      </section>
+    </div>
+    <canvas class="axis longitude" id="world-longitude" aria-hidden="true"></canvas>
+    <canvas class="axis longitude" id="region-longitude" aria-hidden="true"></canvas>
+    <p class="sr-only" id="map-help">Select a country on the map or in the index to see its refugee population. Drag or use the arrow keys to pan the world map. Scroll, pinch, or use the plus and minus keys to zoom. Press Home to reset the map and Escape to clear the selection.</p>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement" aria-labelledby="scale-heading">
+        <h2 id="scale-heading">East Africa inset scale in kilometres</h2>
+        <canvas id="scale" role="img" aria-label="Distance scale along the central parallel of the East Africa inset"></canvas>
+        <p><time datetime="2025-12-31">31 December 2025</time><span class="sep"> · </span><span id="summary-count"></span></p>
+      </section>
+      <section class="locator" aria-label="Location diagrams and network legend">
+        <h2>Location diagrams</h2>
+        <div class="hemispheres">
+          <button class="hemisphere" id="world-home" aria-label="Show all countries of asylum on the world map" title="Reset world view"><span class="globe"><img src="assets/world-locator.png" alt=""><canvas aria-hidden="true"></canvas></span><span>World</span></button>
+          <button class="hemisphere" id="region-home" aria-label="Zoom the main map to East Africa and neighbouring countries" title="Zoom the main map to East Africa and neighbouring countries"><span class="globe"><img src="assets/africa-locator.png" alt=""><canvas aria-hidden="true"></canvas></span><span>East Africa</span></button>
+        </div>
+        <div class="quantity-key" id="line-key" aria-label="Line width represents the number of refugees in each host country">
+          <h2>Refugees per host country</h2>
+          <div class="samples" id="samples"></div>
+        </div>
+        <p class="symbol-key"><i class="origin-symbol" aria-hidden="true"></i>Origin<span class="key-gap"></span><i class="host-symbol" aria-hidden="true"></i>Host</p>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Countries of asylum</h2>
+        <div class="register-scroll" tabindex="0" role="region" aria-labelledby="register-heading">
+          <table aria-labelledby="register-heading">
+            <thead><tr><th scope="col">Country</th><th scope="col">Refugees</th><th scope="col">Share</th></tr></thead>
+            <tbody id="hosts"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="sources">
+        <h2>Data sources</h2>
+        <ul>
+          <li><a id="data-source" href="https://refugeedata.unhcr.org/en/data-finder/detail/PopStatsOfficial/metadata/" target="_blank" rel="noopener noreferrer">UNHCR · Year-end refugee statistics</a></li>
+          <li><a href="https://www.naturalearthdata.com/downloads/" target="_blank" rel="noopener noreferrer">Natural Earth · Borders and relief</a></li>
+          <li><a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/" target="_blank" rel="noopener noreferrer">NASA · Blue Marble</a></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">Where Do Refugees from South Sudan Find Asylum?</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+  <output id="announcement" class="sr-only" aria-live="polite"></output>
+  <noscript>Enable JavaScript to explore the asylum network and country index.</noscript>
+</main>
+</body>
+</html>

@@ -1,0 +1,82 @@
+Day 01 · Points | Meteorite Landings
+
+Antarctica is crowded with dots until you switch to meteorites people saw fall. Of the 32,116 meteorites I mapped from NASA’s catalog, only 1,096 had a witness. Most dots mark the spot where someone later found a meteorite.
+
+#30DayMapChallenge
+
+
+Day 02 · Lines | Lunar Contour Lines
+
+Start at the rim of Tycho crater on the Moon and follow the slope inward. The contours crowd together on the steep walls, spread out across the floor, then close around a peak in the middle. Neighboring lines in this view differ by 500 meters in elevation.
+
+#30DayMapChallenge
+
+
+Day 04 · Cluster | The Kepler Field
+
+Kepler spent four years watching the same stars for tiny dips in brightness. Its field covered just 0.28% of the sky. When I plotted the confirmed planets in NASA’s Exoplanet Archive, 43% fell within that one patch.
+
+#30DayMapChallenge
+
+
+Day 05 · Sight | Earth–Moon Sightlines
+
+On November 5 at 12:00 UTC, the Moon was 40° above the horizon in Philadelphia. At that same moment, someone standing in Tycho crater on the Moon would have seen Earth at almost exactly the same height. I paired the two views so you can move through November 2026 and compare them hour by hour.
+
+#30DayMapChallenge
+
+
+Day 08 · Utopia | A School Close to Home
+
+Where would one more primary school make a difference in Uganda’s Bidibidi refugee settlement? I tested a site in Yangani using UNHCR’s 2018 draft plan. Five of the twelve villages would be closer to school. For Village 8, the straight-line distance would drop from nearly two kilometers to about 350 meters.
+
+#30DayMapChallenge
+
+
+Day 11 · Sound | Where on Mars Were the Wheels Heard?
+
+Press play to hear Perseverance rattle across Jezero Crater. On March 7, 2021, a microphone on the rover recorded a drive of about 27 meters. The red line picks out that stretch among the rover’s early tracks on Mars.
+
+#30DayMapChallenge
+
+
+Day 12 · Power | Who Powers Zaatari?
+
+At midday, the solar plant at Jordan’s Zaatari refugee camp can send surplus electricity to the grid. After sunset, power flows the other way. In 2021, the plant generated more electricity than the camp used over the year, yet residents still had power for only part of each day.
+
+#30DayMapChallenge
+
+
+Day 13 · Interaction | Voyager 2 Gravity Assists
+
+At Jupiter, Voyager 2’s path bends toward Saturn. The dashed line shows where it would have gone if only the Sun’s gravity had acted on it, starting 30 days before the flyby. Where the two lines pull apart, you can see Jupiter change the course of the mission.
+
+#30DayMapChallenge
+
+
+Day 17 · Light & Dark | Earth–Moon Sunlight
+
+In Philadelphia, daylight stretches into the evening in June and shrinks again in December. At Copernicus crater on the Moon, daylight lasts about two Earth weeks at a stretch. Pick either place on the map to see its whole year of sunlight on one calendar.
+
+#30DayMapChallenge
+
+
+Day 23 · Taste | A Dish from Home
+
+In Vietnam, Pam Pham’s father cooked New Year rice cakes overnight while the family sat by the fire. In Prince Rupert, Canada, Pam makes them in a pressure cooker. Aya Wadi tells her story through ma’amoul cookies, and Amina Abdulrahim through injera. I mapped the places all three describe in UNHCR Canada’s cookbook Tastes from Home.
+
+#30DayMapChallenge
+
+
+Day 24 · Networking | Where Refugees from South Sudan Find Asylum
+
+Nearly nine in ten refugees from South Sudan lived in three countries at the end of 2025: Uganda, Sudan and Ethiopia. The thickest line on the map leads to Uganda, where UNHCR counted just over one million.
+
+#30DayMapChallenge
+
+
+Day 25 · Is This a Map? | An Address for a Reader Who Has Never Seen Earth
+
+How would you tell someone where to find the Sun? The cover of Voyager’s Golden Record uses 14 pulsars as landmarks. Each has a distinctive rhythm. In my version, you can read the marks on one engraved line, match the rhythm to the Vela pulsar, and trace the line back to the Sun.
+
+#30DayMapChallenge

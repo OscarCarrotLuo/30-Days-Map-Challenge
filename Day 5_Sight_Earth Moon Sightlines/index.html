@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Earth–Moon Sightlines · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/locator-textures.js"></script>
+  <script defer src="assets/ephemeris.js"></script>
+  <script defer src="sightlines.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="30 Day Map Challenge, Day 5 — Sight">
+  <figure class="plate" aria-label="Earth and Moon visibility maps at a common epoch">
+    <div class="map" id="map">
+      <section class="panel" data-body="moon" tabindex="0" aria-label="Earth from the Moon" aria-describedby="map-help">
+        <img src="assets/moon.webp" alt="LROC global lunar mosaic" draggable="false">
+        <canvas class="overlay" aria-hidden="true"></canvas><h2>Earth from the Moon</h2>
+      </section>
+      <section class="panel" data-body="earth" tabindex="0" aria-label="Moon from the Earth" aria-describedby="map-help">
+        <img src="assets/earth.webp" alt="Global Blue Marble relief of Earth" draggable="false">
+        <canvas class="overlay" aria-hidden="true"></canvas><h2>Moon from the Earth</h2>
+      </section>
+    </div>
+    <p class="sr-only" id="map-help">Select any position for its coordinates and target altitude. Use arrow keys to move by one degree, Shift and arrows for ten degrees. Escape clears the readout.</p>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="reading" aria-live="polite" hidden></output>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement">
+        <h2><label for="epoch">Observation time · November 2026</label></h2>
+        <div class="time-rule">
+          <canvas id="ruler" aria-hidden="true"></canvas>
+          <input type="range" id="epoch" aria-label="Observation time in November 2026, UTC" min="0" max="2879" step="1" value="432">
+        </div>
+        <div class="date-line">
+          <button id="earlier" aria-label="One hour earlier" title="One hour earlier"><span aria-hidden="true">−</span></button>
+          <time id="utc">05 Nov 2026 · 12:00 UTC</time>
+          <button id="later" aria-label="One hour later" title="One hour later"><span aria-hidden="true">+</span></button>
+        </div>
+      </section>
+      <section class="locator">
+        <h2>Zenith points</h2>
+        <div class="hemispheres">
+          <button class="hemisphere" data-locator="moon" aria-label="Inspect the sub-Earth point"><canvas class="globe" aria-hidden="true"></canvas><span>Sub-Earth</span></button>
+          <button class="hemisphere" data-locator="earth" aria-label="Inspect the sub-Moon point"><canvas class="globe" aria-hidden="true"></canvas><span>Sub-Moon</span></button>
+        </div>
+        <div class="key">
+          <h2>Altitude of disc centre</h2>
+          <p><i class="open-key"></i>Above horizon</p>
+          <p><i class="hatched-key"></i>Below horizon</p>
+          <p class="interval">Horizon 0° · Interval 15°</p>
+        </div>
+      </section>
+      <section class="register">
+        <h2 id="register-heading">Index of sightlines</h2>
+        <table aria-labelledby="register-heading">
+          <thead><tr><th scope="col">Station</th><th scope="col">Target</th><th scope="col">Alt.</th></tr></thead>
+          <tbody id="stations"></tbody>
+        </table>
+      </section>
+      <section class="sources">
+        <h2>Data sources</h2>
+        <ul>
+          <li><a href="https://data.lroc.im-ldi.com/lroc/view_rdr/WAC_GLOBAL/">LROC WAC Global Mosaic</a></li>
+          <li><a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/">NASA Earth Observatory · Blue Marble</a></li>
+          <li><a href="https://naif.jpl.nasa.gov/naif/data_generic.html">JPL DE440 · NAIF SPICE</a></li>
+          <li><a href="https://planetarynames.wr.usgs.gov/">IAU / USGS Gazetteer</a></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">EARTH–MOON SIGHTLINES</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+</body>
+</html>

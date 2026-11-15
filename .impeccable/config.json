@@ -1,0 +1,98 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "Day 1_Point_Meteorite Landings/index.html"
+        ],
+        "createdAt": "2026-11-13T04:24:04.354Z",
+        "reason": "Cartographic layout from the requested Day 2 reference: the register headings and tabular rules meet the outer frame; text has separate cell padding."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "Day 1_Point_Meteorite Landings/index.html"
+        ],
+        "createdAt": "2026-11-13T04:24:04.381Z",
+        "reason": "The requested Day 2 engineering-sheet layout uses a single annotation size. Weight and uppercase distinguish the signed title, matching the reference CSS."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "Day 17_Light and Dark/index.html"
+        ],
+        "createdAt": "2026-11-13T23:20:31.472Z",
+        "reason": "Day 2 reference requested by the user: the red rules of the engineering register meet its outer frame. The heading, cells and reading have their own padding; verified in desktop and phone renders."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "Day 17_Light and Dark/index.html"
+        ],
+        "createdAt": "2026-11-13T23:20:31.537Z",
+        "reason": "Day 2 reference requested by the user: its product and design specifications set all drafting text at one Barlow size and distinguish the title with bold uppercase lettering. Day 17 follows that specification."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "Day 11_Sound_Mars Wheel Sounds/index.html"
+        ],
+        "createdAt": "2026-11-13T23:21:20.086Z",
+        "reason": "Day 2 sheet specified by the user: the image fills its square and the printed register rules meet the frame. The map wrapper contains a canvas and visually hidden instructions. The register heading and cells have their own padding, visible in desktop and phone renders."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "Day 11_Sound_Mars Wheel Sounds/index.html"
+        ],
+        "createdAt": "2026-11-13T23:21:20.115Z",
+        "reason": "Day 2 sheet specified by the user: the reference design prescribes one Barlow annotation size for the sheet. Bold uppercase distinguishes the signed title. Day 11 follows the same typography."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "Day 4_Cluster_The Kepler Field/index.html"
+        ],
+        "createdAt": "2026-11-13T23:22:36.193Z",
+        "reason": "Day 2 plate specified by the user: the star-chart canvas fills its square to register with the exterior coordinate axes. The only text in the flagged map wrapper is a visually hidden interaction guide."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "Day 4_Cluster_The Kepler Field/index.html"
+        ],
+        "createdAt": "2026-11-13T23:22:36.276Z",
+        "reason": "Day 2 plate specified by the user: its design sets one Barlow annotation size across the printed sheet and distinguishes the signed title by bold uppercase lettering. Day 4 follows that reference."
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "Day 8_Utopia_Bidibidi School Access/index.html"
+        ],
+        "createdAt": "2026-11-13T23:33:02.278Z",
+        "reason": "The user specified the final Day 2 engineering-sheet typography for Day 8. The Day 2 design sets titles and annotations at a shared Barlow size and distinguishes the signed title with bold uppercase lettering."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "Day 8_Utopia_Bidibidi School Access/index.html"
+        ],
+        "createdAt": "2026-11-14T22:13:53.586Z",
+        "reason": "The user requested the final Day 2 layout. Its ruled distance table meets the outer border. Cell and heading padding provide the text inset, verified in desktop and narrow renders."
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "aya",
+    "name": "Aya Wadi",
+    "dish": "Ma’amoul cookies",
+    "memory": "Aya remembers making ma’amoul with her grandmother, mother and aunts. When the Ramadan fast was over, the family tasted the date-filled cookies and decided whose batch was best. Years later in Thunder Bay, Aya and her mother, Duha Shaar, shared the recipe.",
+    "pages": "56–59",
+    "interview": "https://www.cbc.ca/radio/thecurrent/the-current-for-jan-6-2021-1.5863009/refugees-in-canada-share-recipes-and-tastes-of-home-in-new-digital-cookbook-1.5866135",
+    "tilt": -6,
+    "places": [
+      {"name": "Aleppo", "city_in": "Syria", "detail": "Left in 2014", "label": [853, 572, "start"]},
+      {"name": "Turkey", "country": "TUR", "detail": "Before Canada", "label": [782, 458, "end"]},
+      {"name": "Thunder Bay", "city_in": "Canada", "detail": "November 2017", "label": [208, 436, "start"]}
+    ]
+  },
+  {
+    "id": "amina",
+    "name": "Amina Abdulrahim",
+    "dish": "Injera bread",
+    "memory": "Amina stirs wheat, barley and teff into her injera batter. Cooking brings back her mother preparing food for Amina’s wedding, and the meals Amina made for her daughter’s graduations. In Toronto, her daughter cooked for her and showed her where to shop for Eritrean ingredients.",
+    "pages": "20–23",
+    "tilt": -8,
+    "places": [
+      {"name": "Eritrea", "country": "ERI", "detail": "Left at age 20", "label": [846, 606, "end"]},
+      {"name": "Saudi Arabia", "country": "SAU", "detail": "Lived here 30 years", "label": [803, 418, "end"]},
+      {"name": "Toronto", "city_in": "Canada", "detail": "December 2016", "label": [153, 416, "start"]}
+    ]
+  },
+  {
+    "id": "pam",
+    "name": "Pam Pham",
+    "dish": "New Year rice cakes",
+    "memory": "At New Year in Vietnam, Pam’s father wrapped rice, mung beans and pork in banana leaves. He made a tiny cake for each child to eat the next morning. The family talked beside the fire as the cakes cooked overnight. In Prince Rupert, Pam makes them in a pressure cooker.",
+    "pages": "90–91, 96–97",
+    "tilt": 6,
+    "places": [
+      {"name": "Vietnam", "country": "VNM", "detail": "Left in 1984", "label": [149, 474, "start"]},
+      {"name": "Hong Kong", "city_in": "Hong Kong S.A.R.", "detail": "One year", "label": [192, 607, "start"]},
+      {"name": "Edmonton", "city_in": "Canada", "detail": "Landed in 1985", "label": [844, 403, "end"]},
+      {"name": "Red Deer", "city_in": "Canada", "detail": "One year", "label": [919, 462, "start"]},
+      {"name": "Vancouver", "city_in": "Canada", "detail": "Studied hairdressing", "label": [896, 587, "end"]},
+      {"name": "Prince Rupert", "city_in": "Canada", "detail": "Opened a salon", "label": [787, 523, "end"]}
+    ]
+  }
+]

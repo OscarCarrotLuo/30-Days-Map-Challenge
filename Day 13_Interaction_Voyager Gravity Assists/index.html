@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>VOYAGER 2 GRAVITY ASSISTS · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../Day 2_Line_Moon Contour Lines/atlas.css">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="ephemeris.js"></script>
+  <script defer src="atlas.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="Day 13 · Interaction">
+  <figure class="plate" aria-label="Voyager 2 flight plan projected onto the J2000 ecliptic">
+    <div class="map" id="map" role="region" tabindex="0" aria-label="Interactive solar system map" aria-describedby="instructions">
+      <span class="sr-only" id="instructions">Drag or use the arrow keys to pan. Scroll, pinch, or use plus and minus to zoom. Home returns to the flight plan. Select a flyby in the index to compare trajectories. The location diagrams change the map extent.</span>
+      <canvas id="chart" aria-hidden="true"></canvas>
+      <div id="map-labels" class="map-labels" aria-label="Mapped encounters and bodies"></div>
+    </div>
+    <canvas class="axis longitude" id="x-axis" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="y-axis" aria-hidden="true"></canvas>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement" aria-label="Cartographic scale and projection">
+        <h2 id="scale-title">Scale in astronomical units</h2>
+        <canvas id="scale" aria-label="Graphic scale"></canvas>
+        <p id="projection">Heliocentric · J2000 ecliptic</p>
+      </section>
+      <section class="locator" aria-label="Map navigation and line key">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button id="system" class="hemisphere" type="button" title="Frame the solar system"><span class="globe"><canvas aria-hidden="true"></canvas></span><span>Solar system</span></button>
+          <button id="flight" class="hemisphere" type="button" title="Frame the Voyager flight plan"><span class="globe"><canvas aria-hidden="true"></canvas></span><span>Flight plan</span></button>
+        </div>
+        <div class="center-field"><h2>Trajectory key</h2>
+          <p class="key"><span class="swatch"></span>Voyager 2</p>
+          <p class="key"><span class="swatch coast"></span>Sun-only coast</p>
+          <p class="key"><span class="swatch minor"></span>Minor-planet orbit</p>
+        </div>
+      </section>
+      <section class="register" aria-label="Flyby selection and comparison">
+        <h2>Index of flybys</h2>
+        <table aria-label="Voyager 2 flybys and three-dimensional planet-relative turn angles">
+          <thead><tr><th scope="col">Planet</th><th scope="col">Date</th><th scope="col">Turn</th></tr></thead>
+          <tbody id="flybys"></tbody>
+        </table>
+        <div class="comparison">
+          <p id="epoch" aria-live="polite"></p>
+          <div class="views" aria-label="Flyby views">
+            <button id="encounter" type="button" aria-pressed="false">Close pass</button><span aria-hidden="true">/</span><button id="departure" type="button" aria-pressed="false">Departure</button>
+          </div>
+          <button id="compare" type="button" aria-pressed="true" title="Toggle the Sun-only comparison">
+            <span class="check" aria-hidden="true"></span>Sun-only coast
+          </button>
+        </div>
+      </section>
+      <section class="sources"><h2>Data sources</h2>
+        <ul>
+          <li><a href="https://ssd.jpl.nasa.gov/horizons/" target="_blank" rel="noopener noreferrer">NASA / JPL Horizons</a></li>
+          <li><a href="https://science.nasa.gov/mission/voyager/voyager-2/" target="_blank" rel="noopener noreferrer">Voyager 2 mission archive</a></li>
+          <li><button id="method" type="button">Projection &amp; methods</button></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">VOYAGER 2 GRAVITY ASSISTS</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+<dialog id="method-sheet" aria-labelledby="method-title">
+  <article>
+    <h2 id="method-title">Projection &amp; methods</h2>
+    <dl>
+      <dt>Map plane</dt><dd>The J2000 ecliptic viewed from its north pole. The Sun is at (0, 0) in the flight plan. Close pass subtracts the moving planet’s position at every sample, placing its center at the origin. Both axes use the same linear scale. A path leaving the plane appears foreshortened. Point symbols have a minimum size for legibility.</dd>
+      <dt>Flight plan</dt><dd>The solid line follows JPL’s reconstructed Voyager 2 ephemeris from 20 August 1977 to 1 January 1992. Before 29 August 1989, Horizons uses a mission-design trajectory that approximately reproduces the encounters. Each cross locates a flyby at its own date. Short ticks along the flight plan mark 1 January.</dd>
+      <dt>Orbits</dt><dd>Orbital distances and body radii use astronomical units. The eight planets are plotted at the selected encounter epoch. Their orbit lines are instantaneous two-body ellipses. Fainter lines show a selection of minor-planet orbits at 25 August 1989. The close-pass view shows selected moons and their orbits at closest approach. All curves use the same ecliptic projection.</dd>
+      <dt>Sun-only coast</dt><dd>The dashed line starts with Voyager’s 3-D position and velocity 30 days before the selected encounter and follows solar gravity alone for 760 days. The comparison omits planetary forces and maneuvers. It illustrates how the outgoing route changes.</dd>
+      <dt>Turn angle</dt><dd>The angle between the incoming and outgoing 3-D velocity vectors relative to the planet, sampled seven days before and after closest approach. The dates and angles follow the reconstructed ephemeris on the TDB time scale.</dd>
+    </dl>
+    <form method="dialog"><button type="submit" autofocus>Close</button></form>
+  </article>
+</dialog>
+</body>
+</html>

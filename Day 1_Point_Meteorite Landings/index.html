@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Meteorite Landings · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/landings.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="Day 1 · Points · Meteorite Landings">
+  <figure class="plate" aria-label="Recorded meteorite falls and finds on Earth">
+    <div class="map" id="map" role="region" tabindex="0" aria-label="Interactive world map of meteorites" aria-describedby="instructions">
+      <span class="sr-only" id="instructions">Drag horizontally to explore all longitudes, or use the arrow keys to pan. Scroll, pinch or use plus and minus to zoom. Select a point or a name in the index to inspect a meteorite. Home returns to the opening view.</span>
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <canvas id="linework" aria-hidden="true"></canvas>
+      <img id="world" src="assets/world.webp" alt="" hidden>
+    </div>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="load-status" role="status">Loading map…</output>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement" aria-label="Scale and point symbols">
+        <h2>Scale in kilometres</h2>
+        <canvas id="scale" aria-label="Graphic scale at map center"></canvas>
+        <div class="key" aria-label="Meteorite layers">
+          <button type="button" data-kind="fall" aria-pressed="true" title="Toggle observed falls"><i class="symbol fall"></i>Observed falls <span id="fall-count"></span></button>
+          <button type="button" data-kind="find" aria-pressed="true" title="Toggle finds"><i class="symbol find"></i>Finds <span id="find-count"></span></button>
+        </div>
+      </section>
+      <section class="locator" aria-label="Hemisphere locator">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button class="hemisphere" data-meridian="-90" type="button" aria-label="Navigate the western hemisphere">
+            <span class="globe"><img src="assets/west.png" alt=""><canvas aria-hidden="true"></canvas></span><span>Western</span>
+          </button>
+          <button class="hemisphere" data-meridian="90" type="button" aria-label="Navigate the eastern hemisphere">
+            <span class="globe"><img src="assets/east.png" alt=""><canvas aria-hidden="true"></canvas></span><span>Eastern</span>
+          </button>
+        </div>
+        <div class="center-field"><h2>Map center</h2><p id="position"></p></div>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <div class="index-head">
+          <h2 id="register-heading">Index of meteorites</h2>
+          <button id="search-toggle" type="button" aria-label="Search meteorites" aria-expanded="false" title="Search meteorites">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.6" cy="6.6" r="4.2"/><path d="m9.6 9.6 4 4"/></svg>
+          </button>
+          <div class="search-bar" hidden><input id="query" type="search" aria-label="Meteorite name" placeholder="Find meteorite…" autocomplete="off" spellcheck="false"><button id="close-search" type="button" aria-label="Close search">×</button></div>
+        </div>
+        <div class="register-scroll" tabindex="0" role="region" aria-labelledby="register-heading">
+          <table aria-labelledby="register-heading"><thead><tr><th scope="col">Meteorite</th><th scope="col">Lat.</th><th scope="col">Long.</th></tr></thead><tbody id="rows"></tbody></table>
+        </div>
+      </section>
+      <section class="sources"><h2>Data sources</h2>
+        <ul>
+          <li><a href="https://data.nasa.gov/dataset/meteorite-landings" target="_blank" rel="noopener noreferrer">NASA · Meteorite Landings</a></li>
+          <li><a href="https://www.lpi.usra.edu/meteor/metbull.php" target="_blank" rel="noopener noreferrer">The Meteoritical Society</a></li>
+          <li><a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/" target="_blank" rel="noopener noreferrer">NASA Earth Observatory · Blue Marble</a></li>
+        </ul>
+      </section>
+      <section class="imprint"><h1 id="sheet-title">METEORITE LANDINGS</h1><p>Peirong Luo Oscar</p></section>
+    </aside>
+  </div>
+  <output id="selection" class="sr-only" aria-live="polite"></output>
+</main>
+</body>
+</html>

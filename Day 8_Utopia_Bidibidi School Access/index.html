@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>What If Every Child in the Settlement Had a School Close to Home? · Day 08 Utopia · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="atlas.css">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/plan.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-labelledby="sheet-title">
+  <figure class="plate" aria-label="School access in Yangani, Bidibidi Refugee Settlement, Uganda">
+    <svg class="map field" id="school-map" tabindex="0" role="group"
+      aria-label="2018 Yangani plan with a proposed primary school" aria-describedby="map-help"></svg>
+    <svg class="axis latitude" id="latitude" aria-hidden="true"></svg>
+    <svg class="axis longitude" id="longitude" aria-hidden="true"></svg>
+  </figure>
+
+  <div class="note-space">
+    <aside class="notes" aria-label="Map key, village distances and sources">
+      <section class="measurement">
+        <h2>Scale in metres</h2>
+        <svg id="scale" aria-label="Map scale in metres"></svg>
+        <p>Straight-line distance · rounded to 50 m</p>
+      </section>
+
+      <div class="locator survey-reference">
+        <section class="place">
+          <h2>Location diagram</h2>
+          <svg id="locator" viewBox="0 0 84 82" role="img" aria-label="The Yangani study area in northwestern Uganda"></svg>
+          <p>Yangani · Bidibidi</p><p>Uganda</p>
+        </section>
+        <section class="legend">
+          <h2>Map key</h2>
+          <ul>
+            <li><svg class="key" data-key="school" aria-hidden="true"></svg><span>2018 primary school</span></li>
+            <li><svg class="key" data-key="proposal" aria-hidden="true"></svg><span>Proposed school</span></li>
+            <li><svg class="key" data-key="village" aria-hidden="true"></svg><span>Village point</span></li>
+            <li><svg class="key" data-key="shorter" aria-hidden="true"></svg><span>Closer village</span></li>
+            <li><svg class="key" data-key="land" aria-hidden="true"></svg><span>Residential land</span></li>
+            <li><svg class="key" data-key="nearer" aria-hidden="true"></svg><span>Proposed school nearer</span></li>
+            <li><svg class="key" data-key="water" aria-hidden="true"></svg><span>Drainage</span></li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Nearest school distance <span class="unit">(m)</span></h2>
+        <div class="register-scroll" tabindex="0" aria-labelledby="register-heading" role="region">
+          <table aria-labelledby="register-heading">
+            <thead><tr>
+              <th scope="col" aria-label="Village"><span class="wide-column">Village</span><span class="short-column">ID</span></th>
+              <th scope="col" aria-label="Before the proposal, 2018"><span class="wide-column">Before</span><span class="short-column">2018</span></th>
+              <th scope="col">After</th><th scope="col">Saved</th>
+            </tr></thead>
+            <tbody id="village-rows"></tbody>
+          </table>
+        </div>
+        <p class="register-foot" id="register-total"></p>
+      </section>
+
+      <section class="sources">
+        <h2>Data sources</h2>
+        <ul>
+          <li><a href="https://data.unhcr.org/en/documents/details/74221" target="_blank" rel="noreferrer">UNHCR · Bidibidi Master Plan (draft)</a></li>
+          <li>Site Planning Unit Arua · 25 Jan 2018</li>
+          <li><a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/" target="_blank" rel="noreferrer">Natural Earth · Uganda outline</a></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">What if every child in the settlement had a school close to home?</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+  <p id="map-help" class="sr-only">Red hatching marks residential land where the proposed school would be closer. Select a village point or table row to trace its straight-line distance to school. Scroll, pinch or use the plus and minus keys to zoom. Drag or use arrow keys to pan when zoomed in. Home resets the view. Escape clears the selection.</p>
+  <output id="selection-status" class="sr-only" aria-live="polite"></output>
+</main>
+</body>
+</html>

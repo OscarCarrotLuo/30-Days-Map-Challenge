@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Light &amp; Dark · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/ephemeris.js"></script>
+  <script defer src="assets/globes.js"></script>
+  <script defer src="solar.js"></script>
+  <script defer src="plate.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="Day 17 · Light and Dark">
+  <figure class="plate" aria-label="Surface illumination">
+    <div class="map" id="map" tabindex="0" role="region" aria-label="Earth illumination map" aria-describedby="map-help">
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <canvas id="linework" aria-hidden="true"></canvas>
+      <img id="earth-image" src="assets/earth.webp" alt="" hidden>
+      <img id="moon-image" src="assets/moon.webp" alt="" hidden>
+    </div>
+    <p id="map-help" class="sr-only">Select a place to plot its year of sunlight. Drag to pan. Scroll, pinch, or use plus and minus to zoom. Arrow keys pan. Enter selects the map centre. Home restores the full-height view.</p>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="load-status" role="status">Loading terrain…</output>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="calendar" aria-labelledby="calendar-heading">
+        <h2 id="calendar-heading">Solar calendar · <span id="calendar-site">Greenwich</span> · 2026</h2>
+        <div id="calendar-field">
+          <canvas id="calendar" tabindex="0" role="slider" aria-label="Annual sunlight calendar in UTC" aria-describedby="calendar-help" aria-valuemin="0" aria-valuemax="35039" aria-valuenow="30784"></canvas>
+        </div>
+        <p class="sr-only" id="calendar-help">Choose a date horizontally and UTC time vertically. Left and right move one day. Up and down move 15 minutes. Home and End select the first and last instant of the year.</p>
+        <div class="date-line">
+          <button type="button" id="play" aria-label="Play time forward" aria-pressed="false" title="Play time forward">
+            <svg viewBox="0 0 14 14" aria-hidden="true"><path class="play-mark" d="M4 2.8 11 7l-7 4.2Z"/><path class="pause-mark" d="M4.5 3v8m5-8v8"/></svg>
+          </button>
+          <button type="button" id="earlier" aria-label="One day earlier" title="One day earlier">
+            <svg viewBox="0 0 14 14" aria-hidden="true"><path d="m8.5 3.5-3.5 3.5 3.5 3.5"/></svg>
+          </button>
+          <time id="utc" datetime="2026-11-17T16:00:00Z">17 Nov 2026 · 16:00 UTC</time>
+          <button type="button" id="later" aria-label="One day later" title="One day later">
+            <svg viewBox="0 0 14 14" aria-hidden="true"><path d="m5.5 3.5 3.5 3.5-3.5 3.5"/></svg>
+          </button>
+          <select id="step" aria-label="Time step for arrows and playback" title="Time step for arrows and playback">
+            <option value="1">15 min</option><option value="4">1 hr</option><option value="96" selected>1 day</option>
+          </select>
+        </div>
+      </section>
+      <section class="locator" aria-label="Body selection and map key">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button type="button" class="hemisphere" data-body="earth" aria-label="Show Earth map" aria-pressed="true" title="Show Earth map">
+            <canvas id="earth-globe" class="globe" aria-hidden="true"></canvas><span>Earth</span>
+          </button>
+          <button type="button" class="hemisphere" data-body="moon" aria-label="Show Moon map" aria-pressed="false" title="Show Moon map">
+            <canvas id="moon-globe" class="globe" aria-hidden="true"></canvas><span>Moon</span>
+          </button>
+        </div>
+        <div class="key" aria-label="Map key">
+          <p><i class="sample day"></i>Sunlit <i class="sample night"></i>Dark</p>
+          <p><i class="rule-sample"></i>Terminator 0°</p>
+          <p class="eclipse-key" hidden><i class="eclipse-sample"></i>Eclipse shadow</p>
+          <p id="horizon-note">Clear sky · level horizon</p>
+        </div>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Solar altitude · Earth</h2>
+        <div class="register-list" tabindex="0" role="region" aria-label="Observation stations">
+          <table aria-labelledby="register-heading">
+            <thead><tr><th scope="col">Station</th><th scope="col">Sun alt.</th><th scope="col">Light</th></tr></thead>
+            <tbody id="stations"></tbody>
+          </table>
+        </div>
+        <div class="reading">
+          <p id="site-name"></p>
+          <p id="site-coordinates"></p>
+          <p id="site-reading"></p>
+          <p id="next-light"></p>
+        </div>
+      </section>
+      <section class="sources"><h2>Data sources</h2>
+        <ul>
+          <li><a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/" target="_blank" rel="noopener noreferrer">NASA · Blue Marble</a></li>
+          <li><a href="https://data.lroc.im-ldi.com/lroc/view_rdr/WAC_GLOBAL/" target="_blank" rel="noopener noreferrer">LROC WAC Global Mosaic</a></li>
+          <li><a href="https://naif.jpl.nasa.gov/naif/data_generic.html" target="_blank" rel="noopener noreferrer">JPL DE440 · NAIF SPICE</a></li>
+        </ul>
+      </section>
+      <section class="imprint"><h1 id="sheet-title">LIGHT &amp; DARK</h1><p>Peirong Luo Oscar</p></section>
+    </aside>
+  </div>
+  <output class="sr-only" id="selection" aria-live="polite"></output>
+</main>
+</body>
+</html>

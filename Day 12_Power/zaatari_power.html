@@ -1,0 +1,930 @@
+<meta charset="utf-8">
+<title>Who Powers Zaatari?</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="30 Day Map Challenge 2026, Day 12 Power: a map sheet series on where electricity in Jordan's Zaatari refugee camp comes from.">
+<style>
+@font-face{font-family:ChartBarlow;src:url("assets/fonts/barlow-medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:ChartBarlow;src:url("assets/fonts/barlow-bold.ttf") format("truetype");font-weight:700;font-display:swap}
+:root{
+  /* Layout: the Day 2 sheet. A square relief field, coordinates typeset on the white paper outside it,
+     centred notes beside it on wide screens and below it in portrait. One face at one size; red marks the register and the power. */
+  color-scheme:light;
+  --paper:#ffffff; --ink:#232321; --ink-2:#444442; --red:#983b35; --red-rule:#c99b96; --red-soft:#e4ccc9; --red-wash:#f9efed;
+  --type:ChartBarlow,Arial,sans-serif;
+  --letter:clamp(8px, calc(7.15px + .26vmin), 10px);
+  --frame:clamp(15px, 4.8vmin, 80px);
+  --axis:clamp(17px, 2.6vmin, 27px);
+  --gutter:clamp(20px, 6.2vmin, 84px);
+  --rail:clamp(208px, max(30vw, calc(100vw - 100dvh - var(--gutter))), 510px);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:500 var(--letter)/1.27 var(--type);
+  font-variant-numeric:lining-nums tabular-nums;-webkit-font-smoothing:antialiased}
+h1,h2,p,ul,figure{margin:0;padding:0}
+h1,h2,button,a,th,td{font:inherit;color:inherit}
+button{padding:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{text-decoration:none;text-underline-offset:2px}
+a:hover{text-decoration:underline;color:var(--red)}
+:focus-visible{outline:1px solid var(--red);outline-offset:2px}
+::selection{color:#fff;background:var(--red)}
+[hidden]{display:none!important}
+.up{text-transform:uppercase;letter-spacing:.06em}
+
+.sheet{--side:50vmin;width:100%;height:100vh;height:100dvh;min-width:0;
+  padding:max(var(--frame), calc(var(--axis) + 5px));
+  padding-left:max(var(--frame), calc(var(--axis) + 5px), env(safe-area-inset-left,0px));
+  padding-right:max(var(--frame), calc(var(--axis) + 5px), env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  gap:calc(var(--axis) + clamp(13px, 2.3vmin, 29px))}
+.plate{position:relative;flex:none;width:var(--side)}
+.map{position:relative;isolation:isolate;overflow:hidden;width:var(--side);aspect-ratio:1;background:#3e4041;user-select:none;-webkit-user-select:none}
+.map canvas,#ov{position:absolute;inset:0;width:100%;height:100%;display:block}
+#cv-dim,#cv-lit,#ov{pointer-events:none}
+#cv-fx{cursor:grab;touch-action:none}
+#cv-fx.dragging{cursor:grabbing}
+#ov text{font:500 max(10px,1.12em) var(--type);fill:white;paint-order:stroke;stroke:rgba(22,24,26,.9);stroke-width:2.8px;stroke-linejoin:round}
+#ov .g{fill:none;stroke:rgba(255,255,255,.4);stroke-width:.65}
+#ov .crossings{fill:none;stroke:rgba(255,255,255,.85);stroke-width:1.45}
+#ov .pd{fill:#fffef8;stroke:rgba(40,40,38,.55);stroke-width:1}
+.axis{position:absolute;display:block;overflow:visible;pointer-events:none}
+.axis text{font:500 var(--letter) var(--type);fill:var(--ink-2)}
+.axis path{fill:none;stroke:#777;stroke-width:.7}
+#axlon{top:100%;left:0;width:var(--side);height:var(--axis)}
+#axlat{top:0;right:100%;width:var(--axis);height:var(--side)}
+#tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--ink);padding:.35em .6em;max-width:20em;z-index:3;line-height:1.4}
+#tip b{font-weight:700;display:block;text-transform:uppercase;letter-spacing:.06em}
+
+.note-space{flex:none;width:min(100%, var(--foot-width, 990px));container-type:inline-size}
+.notes{--cg:clamp(24px, 12cqw, 82px);--rg:clamp(16px, 5.1cqw, 31px);
+  display:grid;grid-template-columns:minmax(0,.93fr) minmax(0,1.07fr);
+  grid-template-areas:"instruments instruments" "index register" "sources register" "imprint imprint";
+  align-items:center;justify-items:center;gap:var(--rg) var(--cg);text-align:center}
+.notes > section{min-width:0;width:100%}
+.notes h2{text-transform:uppercase;letter-spacing:.06em;margin-bottom:.48em}
+.instruments{grid-area:instruments;display:grid;justify-items:center;gap:1.35em;width:min(100%,36em)}
+.measurement{width:100%}
+#scalebar{display:block;width:100%;height:2.4em}
+#scalebar text{font:500 var(--letter) var(--type);fill:var(--ink)}
+.measurement p{margin-top:.15em}
+.clock{width:min(100%,30em)}
+#ruler{display:block;width:100%;height:4.4em;overflow:visible;cursor:ew-resize;touch-action:none}
+#ruler:focus{outline:none}
+#ruler:focus-visible{outline:1px solid var(--red);outline-offset:3px}
+#ruler text{font:500 var(--letter) var(--type);fill:var(--ink-2)}
+.tread{margin-top:.5em}
+.tread b{font-weight:700}
+.index{grid-area:index}
+#index{display:inline-grid;grid-template-columns:repeat(4, 2.5em);border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
+#index button{height:2.3em;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+#index button:hover{color:var(--red)}
+#index button[aria-current="page"]{background:var(--red-wash);color:var(--red);font-weight:700}
+.index .sheetname{margin-top:.6em}
+.center-field{margin-top:.9em}
+.center-field h2{margin-bottom:.12em}
+.register{grid-area:register;max-width:26em;align-self:center}
+.register h2{margin:0;padding:.43em .55em;border:1px solid var(--red-rule);color:var(--red)}
+.register table{width:100%;table-layout:fixed;border-collapse:collapse;color:var(--red);font:inherit}
+.register th,.register td{padding:.39em .55em;line-height:1.25;font-weight:500;border:1px solid var(--red-rule);overflow-wrap:break-word}
+.register tr:first-child>*{border-top:0}
+.register th{width:57%;text-align:left}
+.register td{text-align:right;font-variant-numeric:tabular-nums}
+.register-copy{margin-top:.95em;text-align:left;line-height:1.4}
+.register-copy p+p{margin-top:.4em}
+.line-key{display:flex;flex-wrap:wrap;gap:.35em 1.15em;justify-content:flex-start;margin-top:.95em}
+.line-key span{display:inline-flex;align-items:center;gap:.4em}
+.line-key i{width:2em;border-top:1px solid currentColor;display:inline-block}
+.line-key .power{border-top:2px solid #b34538}
+.line-key .boundary{border-top-style:dashed}
+.line-key .transfer{border-top:2px dashed #b34538}
+.line-key .gridline{border-top:2px double #4d5255}
+.sources{grid-area:sources}
+.sources ul{list-style:none;line-height:1.4}
+.imprint{grid-area:imprint}
+.imprint h1{margin-bottom:.35em;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* A broad lower margin has three columns; the outer tracks are equal so the scale and title sit on the map axis. */
+@container (min-width:445px){
+  .sheet[data-foot] .notes{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr) minmax(0,1fr);
+    grid-template-areas:"index instruments register" "sources instruments register" "imprint imprint imprint";
+    column-gap:clamp(28px, 7.5cqw, 88px);row-gap:clamp(15px, 2.9cqw, 30px)}
+}
+@container (max-width:290px){
+  .notes{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);column-gap:clamp(15px, 7.4cqw, 22px);row-gap:clamp(10px, 5cqw, 15px)}
+  #index{grid-template-columns:repeat(4, 2.2em)}
+}
+@media (orientation:portrait) and (max-height:690px) and (max-width:440px){
+  .sheet{height:auto;min-height:100dvh;justify-content:flex-start}
+  .instruments{width:100%;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:2em}
+  .notes{row-gap:12px;column-gap:20px}
+}
+/* Wide windows and shallow landscape phones carry the notes beside the square. */
+@media (min-aspect-ratio:13/10), (orientation:landscape) and (max-height:460px){
+  .sheet{flex-direction:row;gap:var(--gutter)}
+  .note-space{width:var(--rail)}
+}
+@media (max-height:460px){
+  :root{--frame:10px;--axis:16px;--gutter:clamp(14px, 4.5vmin, 23px);--rail:clamp(185px, max(32vw, calc(100vw - 100dvh - var(--gutter))), 510px)}
+  .notes{row-gap:8px}
+  .instruments{gap:.65em}
+  .center-field{margin-top:.55em}
+  .note-space{max-height:100%;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--red-rule) var(--paper)}
+}
+</style>
+
+<main class="sheet" aria-label="Map sheet: who powers Zaatari">
+  <figure class="plate" aria-label="Relief field with geographic graticule">
+    <div class="map" id="plate">
+      <canvas id="cv-base"></canvas>
+      <canvas id="cv-dim"></canvas>
+      <canvas id="cv-lit"></canvas>
+      <canvas id="cv-fx" role="img" aria-label="Interactive map. Drag to pan, scroll or pinch to zoom."></canvas>
+      <svg id="ov" aria-hidden="true"><g class="grid"></g><g class="marks"></g></svg>
+      <div id="tip" hidden></div>
+    </div>
+    <svg class="axis" id="axlon" aria-hidden="true"></svg>
+    <svg class="axis" id="axlat" aria-hidden="true"></svg>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <div class="instruments">
+        <section class="measurement" aria-label="Graphic scale and contour interval">
+          <h2 id="scaletxt">Scale in kilometres</h2>
+          <svg id="scalebar" aria-label="Graphic scale at map centre"></svg>
+          <p class="up" id="contour">Contour interval 100 metres</p>
+        </section>
+        <section class="clock" aria-label="Time of day">
+          <h2>Local time, UTC+3</h2>
+          <svg id="ruler" role="slider" tabindex="0" aria-label="Time of day" aria-valuemin="0" aria-valuemax="24" aria-valuenow="12"></svg>
+          <p class="tread up"><b id="clock">12:00</b> / <span id="st1"></span></p>
+          <p class="up" id="st2"></p>
+        </section>
+      </div>
+      <section class="index" aria-label="Index to sheets">
+        <h2>Index to sheets</h2>
+        <nav id="index" aria-label="Sheets"></nav>
+        <p class="sheetname up" id="sheetname"></p>
+        <div class="center-field"><h2>Map centre</h2><p id="position"></p></div>
+      </section>
+      <section class="register" id="register" aria-labelledby="register-title">
+        <h2 id="register-title" aria-live="polite"></h2>
+        <table aria-labelledby="register-title"><tbody></tbody></table>
+        <div class="register-copy"></div>
+        <div class="line-key" id="line-key" aria-label="Map symbols"></div>
+      </section>
+      <section class="sources"><h2>Data sources</h2><ul id="srcs"></ul></section>
+      <section class="imprint">
+        <h1 id="sheet-title">Who powers Zaatari</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script src="assets/vendor/d3-7.9.0.min.js"></script>
+<script src="data/zaatari_data.js"></script>
+<script src="data/imagery.js"></script>
+<script>
+(function(){
+'use strict';
+const Z = window.ZD;
+if(!Z || !window.d3){ document.body.textContent = 'The map data did not load. Reload the page to try again.'; return; }
+const C = Z.camp, M = Z.meta;
+const $ = s => document.querySelector(s);
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const RAD = Math.PI/180, DEG = '\u00b0';
+const clamp = (v,a,b) => v<a?a:v>b?b:v;
+const sstep = (a,b,x) => { const t = clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
+const fmt = d3.format(',');
+const P = (lon,lat) => [(lon-M.lon0)*M.kx, (lat-M.lat0)*M.ky];
+const UNP = (x,y) => [x/M.kx+M.lon0, y/M.ky+M.lat0];
+const pad2 = n => String(n).padStart(2,'0');
+
+/* map palette: a dark photographic field with white linework */
+const MC = { water:'#22282b', nb:'#3d4042', jo:'#474a4b', wl:'rgba(255,255,250,', white:'#fffef8',
+  on:'#fffdf5', off:'#242629', red:'#ff8064', panel:'#303337' };
+const wl = a => MC.wl + a + ')';
+
+/* ---------------- shelters (UNOSAT) ---------------- */
+const raw = atob(C.shelters), NS = raw.length/6;
+const SX = new Int16Array(NS), SY = new Int16Array(NS), M0 = new Uint8Array(NS), M1 = new Uint8Array(NS);
+for(let i=0;i<NS;i++){
+  const o = i*6;
+  let x = raw.charCodeAt(o) | raw.charCodeAt(o+1)<<8; if(x>32767) x -= 65536;
+  let y = raw.charCodeAt(o+2) | raw.charCodeAt(o+3)<<8; if(y>32767) y -= 65536;
+  SX[i]=x; SY[i]=y; M0[i]=raw.charCodeAt(o+4)&127; M1[i]=raw.charCodeAt(o+5);
+}
+const MONTH_END = 49;
+// The survey count depends on the month, including structures outside the viewport.
+const surveyCounts = new Int32Array(MONTH_END+1);
+for(let i=0;i<NS;i++){
+  if(M0[i]<=MONTH_END) surveyCounts[M0[i]]++;
+  if(M1[i]<=MONTH_END) surveyCounts[M1[i]]--;
+}
+for(let m=1;m<=MONTH_END;m++) surveyCounts[m]+=surveyCounts[m-1];
+const MN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monthLabel = m => { const t = 6+m; return MN[t%12]+' '+(2012+Math.floor(t/12)); };
+const monthOf = d => (+d.slice(0,4)-2012)*12 + (+d.slice(5,7)-7);
+
+/* ---------------- geometry ---------------- */
+function addFlat(p,a,close){ if(!a || a.length<4) return p; p.moveTo(a[0],a[1]); for(let i=2;i<a.length;i+=2) p.lineTo(a[i],a[i+1]); if(close) p.closePath(); return p; }
+const path = (a,close) => addFlat(new Path2D(),a,close);
+function bounds(a){ let x0=1e12,y0=1e12,x1=-1e12,y1=-1e12; for(let i=0;i<a.length;i+=2){ x0=Math.min(x0,a[i]); x1=Math.max(x1,a[i]); y0=Math.min(y0,a[i+1]); y1=Math.max(y1,a[i+1]); } return {x0,y0,x1,y1}; }
+function pip(x,y,a){ let ins=false; for(let i=0,j=a.length-2;i<a.length;j=i,i+=2){ const xi=a[i],yi=a[i+1],xj=a[j],yj=a[j+1]; if(((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi)) ins=!ins; } return ins; }
+const PA = {};
+PA.jordan = new Path2D(); PA.nb = new Path2D();
+Z.countries.forEach(c => { const t = c.n==='Jordan' ? PA.jordan : PA.nb; c.r.forEach(poly => poly.forEach(r => addFlat(t,r,true))); });
+PA.lakes = new Path2D(); Z.lakes.forEach(l => l.r.forEach(poly => poly.forEach(r => addFlat(PA.lakes,r,true))));
+PA.ct = new Path2D(); PA.ctI = new Path2D();
+Z.contours.forEach(c => addFlat(c.e%500===0 ? PA.ctI : PA.ct, c.c, false));
+PA.cc = new Path2D(); PA.ccI = new Path2D();
+Z.campContours.forEach(c => addFlat(c.e%20===0 ? PA.ccI : PA.cc, c.c, false));
+PA.lines = new Path2D(); ['230','132'].forEach(v => Z.lines[v].forEach(a => addFlat(PA.lines,a)));
+PA.l400 = new Path2D(); Z.lines['400'].forEach(a => addFlat(PA.l400,a));
+PA.ext = path(C.extent,true);
+PA.town = path(C.town,true);
+PA.plant = path(C.plant,true);
+PA.panels = new Path2D(); for(let i=0;i<C.panels.length;i+=4){ PA.panels.moveTo(C.panels[i],C.panels[i+1]); PA.panels.lineTo(C.panels[i+2],C.panels[i+3]); }
+PA.cline = new Path2D(); C.lines.forEach(l => addFlat(PA.cline,l.c));
+PA.roadsMain = new Path2D(); PA.roadsMinor = new Path2D();
+C.roads.forEach(r => addFlat(r.k<=2 ? PA.roadsMain : PA.roadsMinor, r.c));
+const DIST = C.districts.map(d => ({...d, p:path(d.c,true)}));
+const EXTS = C.extents.map(e => { const p = new Path2D(); e.r.forEach(poly => poly.forEach(r => addFlat(p,r,true))); return {m:monthOf(e.d), ha:e.ha, p}; });
+const PB = bounds(C.plant);
+const DC = [700,-300,3700];   // detail circle: 4 m contours and camp relief
+const SRC = {gas:'Gas', oil:'Gas / oil', oilshale:'Oil shale', solar:'Solar PV', wind:'Wind', hydro:'Hydro', other:'Other'};
+const PLANTS = Z.plants.filter(p => p.n !== 'Zaatari Camp PV');
+const plantBy = n => PLANTS.find(p => p.n===n);
+
+/* Georeferenced greyscale imagery, from the national mosaic to the camp survey. */
+const imagery = {};
+function loadImagery(){
+  for(const [name, metadata] of Object.entries(window.ZI)){
+    const img = new Image();
+    img.onload = () => { imagery[name] = {img, ...metadata}; dirtyB = true; };
+    img.src = metadata.src;
+  }
+}
+
+/* ---------------- flows ---------------- */
+function mkFlow(flat,o){
+  const n = flat.length/2, cum = new Float64Array(n);
+  for(let i=1;i<n;i++) cum[i] = cum[i-1] + Math.hypot(flat[2*i]-flat[2*i-2], flat[2*i+1]-flat[2*i-1]);
+  return Object.assign({pts:flat, cum, len:cum[n-1], n, path:path(flat)}, o);
+}
+function at(f,d){
+  if(d<=0) return [f.pts[0],f.pts[1]];
+  if(d>=f.len) return [f.pts[2*f.n-2],f.pts[2*f.n-1]];
+  let lo=0, hi=f.n-1; while(hi-lo>1){ const m=(lo+hi)>>1; if(f.cum[m]<d) lo=m; else hi=m; }
+  const t = (d-f.cum[lo]) / ((f.cum[hi]-f.cum[lo]) || 1);
+  return [f.pts[2*lo]+(f.pts[2*hi]-f.pts[2*lo])*t, f.pts[2*lo+1]+(f.pts[2*hi+1]-f.pts[2*lo+1])*t];
+}
+const S = {h:12, doy:316, elev:0, mw:0, s:0, on:0, imp:0, exp:0, use:0};
+const PCC = [Math.round((PB.x0+PB.x1)/2), PB.y1+45];
+const IN = [PCC[0]+30, -640];
+const MAF = [Z.subs[0].x, Z.subs[0].y];
+const FL = {};
+FL.pv = mkFlow([C.plantC[0],C.plantC[1], PCC[0],PCC[1]], {w:1.8, lod:'camp', I:()=>S.s});
+FL.feed = mkFlow([PCC[0],PCC[1], IN[0],IN[1]], {w:1.8, lod:'camp', I:()=> S.on ? 0.35+0.65*Math.min(1,S.use/0.55) : 0});
+FL.ideco = mkFlow([PCC[0],PCC[1], -300,-1290, -1500,-950, -2700,1500, -3900,6400, MAF[0],MAF[1]],
+  {dirFn:()=> S.exp>=S.imp ? 1:-1, w:1.4, dash:[6,4], lod:'local', I:()=> clamp(Math.abs(S.exp-S.imp)/0.5,0,1)});
+FL.dist = C.roads.filter(r => r.k<=2 && pip(r.c[Math.floor(r.c.length/4)*2], r.c[Math.floor(r.c.length/4)*2+1], C.extent))
+  .map((r,i) => mkFlow(r.c, {w:1, lod:'det', I:()=>S.on, dirFn:()=> i%2?1:-1}));
+FL.market = C.roads.filter(r => r.mk).map((r,i) => mkFlow(r.c, {w:1, lod:'det', I:()=>0.7, dirFn:()=> i%2?1:-1}));
+FL.routes = {};
+Z.routes.forEach(r => {
+  const I = r.k==='solar'||r.k==='wheel' ? ()=>S.s : r.k==='wind' ? ()=>0.5 : ()=> 0.12 + 0.88*clamp(S.imp/0.5,0,1);
+  FL.routes[r.id] = mkFlow(r.c, {w:r.k==='wheel'?2:1.4, lod:'nat', I, kind:r.k});
+});
+const fuel = pts => pts.flatMap(([lo,la]) => P(lo,la));
+const FUEL = [
+  mkFlow(fuel([[34.5,32.86],[34.95,32.70],[35.35,32.56],[35.58,32.50],[35.86,32.42],[36.05,32.36]]),{}),
+  mkFlow(fuel([[34.40,28.80],[34.70,29.20],[34.96,29.43]]),{}),
+  mkFlow(fuel([[34.80,28.62],[34.92,29.05],[34.99,29.40]]),{})
+];
+
+/* ---------------- sheets ---------------- */
+const SOURCES = [
+  ['UNHCR camp factsheets', 'https://data.unhcr.org/en/documents/download/124044'],
+  ['KfW ex-post evaluation, 2022', 'https://www.kfw-entwicklungsbank.de/PDF/Evaluierung/Ergebnisse-und-Publikationen/PDF-Dokumente-E-K_EN/Jordanien_Zaatari_2022_E.pdf'],
+  ['KfW Stories, Zaatari solar', 'https://www.kfw.de/stories/society/social-cohesion/solar-plant-zaatari/'],
+  ['Jordan Times, 2024 power mix', 'https://jordantimes.com/news/local/jordans-electricity-generation-from-natural-gas-declines-to-58-in-2024-ministry'],
+  ['Jordan Times, camp hours, 2022', 'https://jordantimes.com/news/local/kingdoms-two-solar-powered-syrian-camps-look-balance-growing-electricity-demand'],
+  ['Enerdata, Jordan gas imports', 'https://www.enerdata.net/estore/energy-market/jordan/'],
+  ['World Oil, gas pipeline, 2018', 'https://worldoil.com/news/2018/7/4/jordan-pipeline-for-israeli-gas-set-for-completion-by-end-of-2019'],
+  ['UNHCR network Q&A, 2024', 'https://unhcr.org/jo/wp-content/uploads/sites/60/2024/05/Questions-by-Contractors.pdf'],
+  ['UNOSAT shelters / HDX', 'https://data.humdata.org/dataset/update-al-zaatari-refugee-camp-mafraq-governorate-jordan'],
+  ['REACH district map, 2016', 'https://repository.impact-initiatives.org/document/impact/d6ab1946/reach_jor_map_zaatari_ccm_general_infrastructure_district_dec2016_1.pdf'],
+  ['OpenStreetMap', 'https://www.openstreetmap.org/copyright'],
+  ['AWS Terrain Tiles', 'https://registry.opendata.aws/terrain-tiles/']
+];
+const pv = plantBy('South Amman Solar Power Plant');
+const samra = plantBy('Samra Power Station');
+const CH = [
+ { id:'camp', w:'Camp', view:'camp', flows:['dist','market','pv','feed'],
+   title:'Zaatari refugee camp',
+   notes:['Opened July 2012, 11 km from Syria; 534 ha and 12 districts by 2014.',
+          'Each dot is a structure seen from orbit. It lights up while the network is on.'],
+   rows:[['Residents, Jul 2026','47,000+'],['Residents, Jan 2026','51,000'],['Structures, Aug 2016',fmt(C.shelterOpen)],['Districts','12']], src:[0,8,9,10] },
+ { id:'sun', w:'Sun', view:'plant', flows:['pv','feed'],
+   title:'12.9 MWp on site',
+   notes:['Solar plant in service since Nov 2017, paid for by Germany through KfW.',
+          'Average output 22.3 GWh a year, 2018 to 2021.'],
+   rows:[['Installed','12.9 MWp'],['Output, 2018-21','22.3 GWh/yr'],['CO2 avoided','15,600 t/yr'],['KfW grant','EUR 15 M']], src:[1,2,10,11],
+   marks:() => [{t:'PV plant, 12.9 MWp', x:PB.x1, y:(PB.y0+PB.y1)/2, dx:10, dy:4}] },
+ { id:'meter', w:'Meter', view:'local', flows:['pv','feed','ideco'],
+   title:'Sun out, grid in',
+   notes:['Output is fed to the grid and credited to the camp: 113% of its supply in 2021.',
+          'At noon the surplus flows out; at night power flows back in. Link route schematic.'],
+   rows:[['Net metering, 2021','113%'],['Power bill before','USD 4.3 M/yr'],['First year after','USD 0.37 M'],['Connection','33 kV, IDECO']], src:[1,7,10,11],
+   marks:() => { const p = at(FL.ideco, FL.ideco.len*0.62); return [{t:'Mafraq 132 kV', x:MAF[0], y:MAF[1], dot:true}, {t:'33 kV link', x:p[0], y:p[1], dx:10, dy:4}, {t:'Zaatari', x:2300, y:-200, dx:10, dy:4}]; } },
+ { id:'grid', w:'Grid', view:'jordan', flows:['routes'], fuel:true,
+   title:"After sunset, Jordan's grid",
+   notes:["Jordan's 2024 mix: gas 58%, renewables 26.9%, oil shale about 15%.",
+          '83% of imported gas came from Israel by pipeline into Mafraq. Routes illustrative.'],
+   rows:[['Gas, 2024','58%'],['Renewables','26.9%'],['Oil shale','~15%'],['Gas imports from Israel','83%']], src:[3,5,6,10],
+   marks:() => { const m = []; [['Samra Power Station','Samra'],['Attarat Oil Shale Plant','Attarat'],['Aqaba Thermal Power Station','Aqaba'],['Tafila Wind Farm','Tafila wind'],['Shams Ma\u2019an Solar',"Ma'an solar"],['Rehab Power Station','Rehab']].forEach(([n,t]) => { const p = plantBy(n); if(p) m.push({t, x:p.x, y:p.y, dx:9, dy:4}); });
+     m.push({t:'Zaatari', x:0, y:0, dx:10, dy:-6, pri:5});
+     const a = P(35.42,32.62), b = P(34.6,28.86), c = P(34.95,28.7);
+     m.push({t:'Leviathan gas', x:a[0], y:a[1], dx:0, dy:-10, anchor:'middle'}, {t:'Egyptian gas', x:b[0], y:b[1], dx:-8, dy:0, anchor:'end'}, {t:'LNG, Aqaba', x:c[0], y:c[1], dx:8, dy:6});
+     return m; } },
+ { id:'wheel', w:'Wheel', view:'wheel', flows:['wheel','routes'], dimRoutes:true,
+   title:'A second sun, 80 km away',
+   notes:['A share of the 46 MWp South Amman solar plant is wheeled to Zaatari and Azraq.',
+          'UNHCR pays its operation. The camp now runs almost entirely on renewables.'],
+   rows:[['South Amman solar','46.3 MWp'],['Straight line to camp','~81 km'],['Camps served','2'],['O&M paid by','UNHCR']], src:[0,2,10,11],
+   marks:() => [{t:'South Amman solar, 46 MWp', x:pv.x, y:pv.y, dx:10, dy:4, pri:5}, {t:'Zaatari', x:0, y:0, dx:10, dy:-6}, {t:'Azraq camp', x:Z.camps[1].x, y:Z.camps[1].y, dx:10, dy:4}] },
+ { id:'hours', w:'Hours', view:'camp', flows:['dist','market','feed','pv'],
+   title:'Electricity on a timetable',
+   notes:['Shelters get power only while the network is on: 9 h a day in May 2024.',
+          'Off schedule, shops run on car batteries and diesel generators.'],
+   rows:[['Before the plant','6 h'],['After the plant','11.5 h'],['May 2024','9 h'],['2026 range','9-15 h']], src:[0,1,4,7] },
+ { id:'kwh', w:'kWh', view:'camp', flows:['dist','market','feed','pv'], mode:'disp',
+   title:'Seven kilowatt-hours a day',
+   notes:['Energy dispensers give 24 h access, capped at 7 kWh per household per day.',
+          'Average use in 2022 was 2.6 kWh. One heater for 3 h uses 4.5 kWh.'],
+   rows:[['Daily allowance','7 kWh'],['Access','24 h'],['Average use, 2022','2.6 kWh'],['Refugees covered','6,500']], src:[0,1,8,10] },
+ { id:'answer', w:'Answer', view:'north', flows:['wheel','routes'],
+   title:'Who powers Zaatari',
+   notes:['On paper, the sun: the on-site plant alone makes 113% of what the camp uses.',
+          "After dark, Jordan's grid, mostly imported gas. Paid for by KfW, Japan and UNHCR."],
+   rows:[['On paper','Sun, 113%'],['After dark','Grid, 58% gas'],['Plant O&M, UNHCR','USD 725,735/yr'],['Electricians trained','~150']], src:[0,1,3,5],
+   marks:() => [{t:'Zaatari', x:0, y:0, dx:10, dy:-6, pri:5}, {t:'South Amman solar', x:pv.x, y:pv.y, dx:10, dy:4}, {t:'Samra', x:samra.x, y:samra.y, dx:10, dy:4}, {t:'Azraq camp', x:Z.camps[1].x, y:Z.camps[1].y, dx:10, dy:4}] }
+];
+let cur = 0;
+
+/* ---------------- canvases + camera ---------------- */
+const sheet = $('.sheet'), noteSpace = $('.note-space');
+const plate = $('#plate');
+const cvB = $('#cv-base'), cvD = $('#cv-dim'), cvL = $('#cv-lit'), cvF = $('#cv-fx');
+const cB = cvB.getContext('2d'), cD = cvD.getContext('2d'), cL = cvL.getContext('2d'), cF = cvF.getContext('2d');
+const ov = d3.select('#ov');
+let W=10, H=10, dpr=1;
+let tr = d3.zoomIdentity.translate(200,200).scale(0.001);
+let dirtyB=true, dirtyS=true, dirtyL=true;
+const L = {nat:1, camp:0, det:0, local:0};
+const VIEWS = {
+  camp:  [-900,-1640,2350,1240],
+  plant: [-1250,-2400,2300,420],
+  local: [-6200,-4300,16400,11400],
+  jordan:[-176000,-345000,176000,96000],
+  wheel: [-50000,-80000,32000,11000],
+  north: [-64000,-90000,40000,18000]
+};
+function fitT(key){
+  const b = VIEWS[key], pad = Math.min(36, W*0.05);
+  const k = Math.max(1e-5, Math.min(Math.max(60,W-2*pad)/(b[2]-b[0]), Math.max(60,H-2*pad)/(b[3]-b[1])));
+  return d3.zoomIdentity.translate(W/2 - k*(b[0]+b[2])/2, H/2 + k*(b[1]+b[3])/2).scale(k);
+}
+const zoom = d3.zoom().scaleExtent([0.0005,6])
+  .filter(e => (e.type==='wheel' || !e.button))
+  .on('start', e => { if(e.sourceEvent){ cancelIntro(); cvF.classList.add('dragging'); hideTip(); } })
+  .on('zoom', e => { tr = e.transform; dirtyB = dirtyS = dirtyL = true; })
+  .on('end', () => cvF.classList.remove('dragging'));
+const zsel = d3.select(cvF).call(zoom).on('dblclick.zoom', null);
+function fly(key, dur, cb){
+  const t = fitT(key), s = zsel.interrupt();
+  if(RM || dur===0){ s.call(zoom.transform, t); if(cb) cb(); return; }
+  s.transition().duration(dur||1900).ease(d3.easeCubicInOut).call(zoom.transform, t).on('end', () => { if(cb) cb(); });
+}
+function resize(){
+  const r = plate.getBoundingClientRect(), oW = W, oH = H;
+  W = Math.max(10, r.width); H = Math.max(10, r.height); dpr = Math.min(2, window.devicePixelRatio||1);
+  [cvB,cvD,cvL,cvF].forEach(c => { c.width = Math.round(W*dpr); c.height = Math.round(H*dpr); });
+  ov.attr('viewBox', `0 0 ${W} ${H}`);
+  if(oW>10 && (Math.abs(oW-W)>1 || Math.abs(oH-H)>1)){
+    // Keep the same geographic footprint when wrapped notes resize the plate.
+    const ratio = W / oW;
+    const x = W/2 + (tr.x-oW/2)*ratio, y = H/2 + (tr.y-oH/2)*ratio;
+    zsel.call(zoom.transform, d3.zoomIdentity.translate(x,y).scale(tr.k*ratio));
+  }
+  dirtyB = dirtyS = dirtyL = true;
+}
+
+/* The square takes the space left after the notes are measured (Day 2 sheet rule). */
+function fitSheet(){
+  const css = getComputedStyle(sheet);
+  const width = sheet.clientWidth - parseFloat(css.paddingLeft) - parseFloat(css.paddingRight);
+  const height = sheet.clientHeight - parseFloat(css.paddingTop) - parseFloat(css.paddingBottom);
+  const horizontal = css.flexDirection === 'row';
+  sheet.toggleAttribute('data-foot', !horizontal);
+  let side;
+  if(horizontal){
+    side = Math.min(height, width - noteSpace.getBoundingClientRect().width - parseFloat(css.columnGap), 1340);
+  } else {
+    if(css.justifyContent === 'flex-start'){
+      noteSpace.style.setProperty('--foot-width', width + 'px');
+      sheet.style.setProperty('--side', Math.floor(width) + 'px');
+      drawRuler();
+      return;
+    }
+    const room = height - parseFloat(css.rowGap);
+    const minFooter = width < 445 ? width : Math.min(width, (width >= 550 ? 64 : 31) * parseFloat(css.fontSize));
+    let footer = Math.min(width, 1340);
+    for(let pass = 0; pass < 4; pass++){
+      noteSpace.style.setProperty('--foot-width', footer + 'px');
+      side = Math.min(width, room - noteSpace.getBoundingClientRect().height, 1340);
+      const next = Math.max(minFooter, Math.floor(side));
+      if(next >= footer - 1) break;
+      footer = next;
+    }
+  }
+  sheet.style.setProperty('--side', Math.max(1, Math.floor(side)) + 'px');
+  drawRuler();
+}
+
+/* ---------------- time model ---------------- */
+function sunElev(h, doy){
+  const lat = M.lat0*RAD, lon = M.lon0, g = 2*Math.PI/365*(doy-1+(h-3-12)/24);
+  const eqt = 229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g));
+  const dec = 0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g);
+  const ha = ((h*60 + eqt + 4*lon - 180)/4 - 180)*RAD;
+  return Math.asin(clamp(Math.sin(lat)*Math.sin(dec) + Math.cos(lat)*Math.cos(dec)*Math.cos(ha),-1,1))/RAD;
+}
+const unit = e => e<=0 ? 0 : Math.pow(Math.sin(e*RAD), 1.25);
+let yearUnits = 0;
+for(let d=1; d<=365; d+=2){ let s=0; for(let h=0; h<24; h+=0.25) s += unit(sunElev(h,d))*0.25; yearUnits += s*2; }
+const KCAL = 22300/yearUnits;   // MW per unit: the model yields 22.3 GWh a year (KfW, 2018-21 average)
+const SCHED = [[12,15],[17,23]];   // UNHCR, May 2024
+let mode = 'sched';
+const onAt = h => mode==='disp' ? 1 : (SCHED.some(([a,b]) => h>=a && h<b) ? 1 : 0);
+const NOWD = new Date(Date.now()+3*3600e3);
+S.h = NOWD.getUTCHours() + NOWD.getUTCMinutes()/60;
+S.doy = Math.floor((NOWD - Date.UTC(NOWD.getUTCFullYear(),0,0))/864e5);
+function updateState(){
+  S.elev = sunElev(S.h, S.doy); S.mw = KCAL*unit(S.elev); S.s = S.mw/KCAL;
+  S.on = onAt(S.h);
+  S.use = S.on ? (mode==='disp' ? 0.42 : 0.55) : 0;
+  S.exp = Math.max(0, S.s - S.use); S.imp = Math.max(0, S.use - S.s);
+}
+const hhmm = h => pad2(Math.floor(h)%24)+':'+pad2(Math.floor((h%1)*60));
+
+/* ---------------- intro ---------------- */
+const growth = {active:false, m:MONTH_END, reveal:1, timer:null};
+let introTimeout = null;
+
+/* ---------------- drawing ---------------- */
+const worldT = c => c.setTransform(dpr*tr.k,0,0,-dpr*tr.k,dpr*tr.x,dpr*tr.y);
+const screenT = c => c.setTransform(dpr,0,0,dpr,0,0);
+const sxy = (x,y) => [tr.x+tr.k*x, tr.y-tr.k*y];
+const inView = (sx,sy,m=0) => sx>m && sx<W-m && sy>m && sy<H-m;
+
+function plantGlyph(c, p, sx, sy, col){
+  const s = clamp(1.8+Math.sqrt(p.mw||2)*0.26, 2, 9);
+  c.lineWidth = 1.1;
+  if(!p.n && p.s==='solar'){ c.globalAlpha *= 0.6; c.fillStyle = col; c.fillRect(sx-1.3,sy-1.3,2.6,2.6); return; }
+  switch(p.s){
+    case 'gas': case 'oil': c.fillStyle = col; c.beginPath(); c.arc(sx,sy,s,0,Math.PI*2); c.fill(); break;
+    case 'oilshale': c.fillStyle = col; c.beginPath(); c.moveTo(sx,sy-s*1.25); c.lineTo(sx+s*1.25,sy); c.lineTo(sx,sy+s*1.25); c.lineTo(sx-s*1.25,sy); c.closePath(); c.fill(); break;
+    case 'solar': c.strokeStyle = col; c.strokeRect(sx-s,sy-s,2*s,2*s); break;
+    case 'wind': c.strokeStyle = col; c.lineWidth = 1.2; c.beginPath(); for(let i=0;i<3;i++){ const an = -Math.PI/2 + i*2*Math.PI/3; c.moveTo(sx,sy); c.lineTo(sx+Math.cos(an)*(s+2), sy+Math.sin(an)*(s+2)); } c.stroke(); break;
+    default: c.strokeStyle = col; c.beginPath(); c.arc(sx,sy,s*0.8,0,Math.PI*2); c.stroke();
+  }
+}
+function drawImagery(c, name, opacity){
+  const tile = imagery[name];
+  if(!tile || opacity < .01) return;
+  const [x,y] = sxy(tile.x0,tile.y1);
+  const width = tr.k * (tile.x1-tile.x0), height = tr.k * (tile.y1-tile.y0);
+  if(x>=W || y>=H || x+width<=0 || y+height<=0) return;
+  c.globalAlpha = opacity;
+  c.drawImage(tile.img,x,y,width,height);
+  c.globalAlpha = 1;
+}
+function drawBase(){
+  const c = cB, k = tr.k, px = 1/k, lk = Math.log10(k * 800 / W), ch = CH[cur];
+  L.nat = 1 - sstep(-1.75,-1.2,lk); L.camp = sstep(-2.15,-1.55,lk); L.det = sstep(-1.42,-0.88,lk); L.local = sstep(-2.6,-2.0,lk);
+  c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,cvB.width,cvB.height);
+  screenT(c); c.fillStyle = MC.water; c.fillRect(0,0,W,H);
+  worldT(c);
+  c.fillStyle = MC.nb; c.fill(PA.nb,'evenodd');
+  c.fillStyle = MC.jo; c.fill(PA.jordan,'evenodd');
+  c.fillStyle = MC.water; c.fill(PA.lakes);
+  screenT(c);
+  drawImagery(c,'national',1);
+  drawImagery(c,'region',sstep(-2.55,-1.6,lk));
+  drawImagery(c,'camp',sstep(-1.7,-1.05,lk));
+  worldT(c);
+  if(L.nat>0.01){ c.globalAlpha = L.nat; c.strokeStyle = wl(.26); c.lineWidth = .55*px; c.stroke(PA.ct); c.strokeStyle = wl(.56); c.lineWidth = .85*px; c.stroke(PA.ctI); }
+  if(L.camp>0.01){
+    c.save(); c.beginPath(); c.arc(DC[0],DC[1],DC[2],0,Math.PI*2); c.clip();
+    c.globalAlpha = L.camp; c.strokeStyle = wl(.25); c.lineWidth = .6*px; c.stroke(PA.cc); c.strokeStyle = wl(.54); c.lineWidth = .85*px; c.stroke(PA.ccI);
+    c.restore();
+  }
+  c.globalAlpha = 1; c.setLineDash([7*px,2.5*px,1.2*px,2.5*px]); c.strokeStyle = wl(.5); c.lineWidth = 0.8*px; c.stroke(PA.nb); c.strokeStyle = wl(.7); c.lineWidth = 1*px; c.stroke(PA.jordan); c.setLineDash([]);
+  c.globalAlpha = Math.max(L.nat, L.local*0.9)*(1-0.85*L.det); c.strokeStyle = wl(.45); c.lineWidth = 0.7*px; c.stroke(PA.lines); c.strokeStyle = wl(.6); c.lineWidth = 1.15*px; c.stroke(PA.l400);
+  if(L.camp>0.01){
+    const a = L.camp;
+    c.globalAlpha = a; c.fillStyle = wl(.05); c.fill(PA.town);
+    let extP = PA.ext;
+    if(growth.active){ extP = null; for(const e of EXTS){ if(e.m<=growth.m) extP = e.p; } }
+    if(extP){ c.strokeStyle = '#292c2e'; c.lineWidth = 2.8*px; c.stroke(extP); c.strokeStyle = MC.white; c.lineWidth = 1.25*px; c.stroke(extP); }
+    if(L.det>0.01){
+      c.globalAlpha = L.det; c.strokeStyle = wl(.52); c.lineWidth = .95*px; c.stroke(PA.roadsMain);
+      c.strokeStyle = wl(.25); c.lineWidth = .6*px; c.stroke(PA.roadsMinor);
+      if(!growth.active){ c.strokeStyle = wl(.91); c.lineWidth = 1.05*px; c.setLineDash([3.5*px,3.5*px]); DIST.forEach(d => c.stroke(d.p)); c.setLineDash([]); }
+    }
+    c.globalAlpha = a; c.fillStyle = 'rgba(21,24,27,.44)'; c.fill(PA.plant); c.strokeStyle = wl(.92); c.lineWidth = 1.15*px; c.stroke(PA.plant);
+    if(growth.reveal>0){
+      c.save();
+      if(growth.reveal<1){ c.beginPath(); c.rect(PB.x0-10, PB.y0-10, (PB.x1-PB.x0+20)*growth.reveal, PB.y1-PB.y0+20); c.clip(); }
+      c.strokeStyle = wl(.58); c.lineWidth = 1.65; c.stroke(PA.panels);
+      c.restore();
+    }
+    c.globalAlpha = a; c.strokeStyle = wl(.7); c.lineWidth = 1*px; c.setLineDash([9*px,3*px,2*px,3*px]); c.stroke(PA.cline); c.setLineDash([]);
+    if(L.det>0.3){ c.fillStyle = MC.white; for(let i=0;i<C.towers.length;i+=2) c.fillRect(C.towers[i]-2*px, C.towers[i+1]-2*px, 4*px, 4*px); }
+  }
+  c.globalAlpha = 1; screenT(c);
+  if(L.nat>0.05){
+    const focus = ch.id==='wheel' ? /South Amman/ : null;
+    PLANTS.forEach(p => { const [sx,sy] = sxy(p.x,p.y); if(!inView(sx,sy,-10)) return;
+      const f = focus && focus.test(p.n||'');
+      c.globalAlpha = L.nat*(ch.dimRoutes && !f ? 0.45 : 0.95); plantGlyph(c, p, sx, sy, f ? MC.red : MC.white); });
+    c.globalAlpha = L.nat;
+    Z.camps.forEach((cp,i) => { const [sx,sy] = sxy(cp.x,cp.y), r = i===0 ? 5 : 3.8;
+      c.lineWidth = 1.4; c.strokeStyle = i===0 ? MC.red : MC.white; c.fillStyle = 'rgba(40,40,38,.4)';
+      c.beginPath(); c.arc(sx,sy,r,0,Math.PI*2); c.fill(); c.stroke();
+      c.beginPath(); c.moveTo(sx-r-4,sy); c.lineTo(sx+r+4,sy); c.moveTo(sx,sy-r-4); c.lineTo(sx,sy+r+4); c.stroke(); });
+  }
+  if(L.local>0.3 && L.det<0.9){
+    c.globalAlpha = L.local*(1-L.det); c.strokeStyle = MC.white; c.fillStyle = 'rgba(40,40,38,.5)'; c.lineWidth = 1.1;
+    Z.subs.forEach(sb => { const [sx,sy] = sxy(sb.x,sb.y); if(!inView(sx,sy)) return; c.fillRect(sx-3.5,sy-3.5,7,7); c.strokeRect(sx-3.5,sy-3.5,7,7); });
+  }
+  c.globalAlpha = 1;
+}
+
+function drawShelters(){
+  [cD,cL].forEach(c => { c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,cvD.width,cvD.height); });
+  const a = L.det; if(a<0.02) return;
+  const k = tr.k, m = growth.m, s = clamp(k*3.4,0.38,4.2), hs = s/2;
+  screenT(cD); screenT(cL);
+  cD.globalAlpha = a*(growth.active ? .94 : .66); cD.fillStyle = growth.active ? MC.on : MC.off;
+  cL.globalAlpha = a*.86; cL.fillStyle = MC.on;
+  for(let i=0;i<NS;i++){
+    if(M0[i]>m || m>=M1[i]) continue;
+    const sx = tr.x+k*SX[i], sy = tr.y-k*SY[i];
+    if(sx<-4||sx>W+4||sy<-4||sy>H+4) continue;
+    cD.fillRect(sx-hs,sy-hs,s,s);
+    if(!growth.active) cL.fillRect(sx-hs,sy-hs,s,s);
+  }
+}
+
+let litLevel = 0, prevOn = 0, flickerT = 0, hoverD = -1, hoverP = null;
+function activeFlows(){
+  const out = [];
+  (CH[cur].flows||[]).forEach(key => {
+    if(key==='dist') out.push(...FL.dist);
+    else if(key==='market') out.push(...FL.market);
+    else if(key==='routes') Object.values(FL.routes).forEach(f => { if(f.kind!=='wheel') out.push(f); });
+    else if(key==='wheel') ['southamman','southamman_azraq'].forEach(id => FL.routes[id] && out.push(FL.routes[id]));
+    else if(FL[key]) out.push(FL[key]);
+  });
+  return out;
+}
+const lodVis = f => f.lod==='nat' ? Math.max(L.nat, L.local*0.8) : f.lod==='local' ? L.local : f.lod==='det' ? L.det : L.camp;
+function drawFX(now){
+  const c = cF, k = tr.k, tsec = now/1000, ch = CH[cur];
+  c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,cvF.width,cvF.height);
+  screenT(c);
+  if(!growth.active){
+    for(const f of activeFlows()){
+      const dim = ch.dimRoutes && f.lod==='nat' && f.kind!=='wheel';
+      const vis = lodVis(f) * (dim ? 0.35 : 1);
+      if(vis<0.02) continue;
+      const Lpx = f.len*k; if(Lpx<6) continue;
+      const I = clamp(f.I(),0,1), dir = f.dirFn ? f.dirFn() : 1, col = dim ? MC.white : MC.red;
+      const lineWidth = Math.min(1, Math.max(.72, W/800)) * (f.lod === 'det' ? 1.5 : f.w + .65);
+      worldT(c);
+      if(f.dash) c.setLineDash(f.dash.map(v => v/k));
+      c.strokeStyle = '#262529'; c.lineWidth = (lineWidth+1.7)/k; c.globalAlpha = vis*.83; c.stroke(f.path);
+      c.strokeStyle = col; c.lineWidth = lineWidth/k; c.globalAlpha = vis*(.68+.32*I); c.stroke(f.path);
+      c.setLineDash([]); screenT(c);
+      if(RM || I<0.03) continue;
+      const sp = 24, n = Math.min(320, Math.floor(Lpx/sp)), speed = 22+44*I, off = (tsec*speed)%sp, tail = 8/k;
+      c.beginPath();
+      for(let i=0;i<=n;i++){
+        let d = (i*sp+off)/k; if(d>f.len) continue; if(dir<0) d = f.len-d;
+        const p = at(f,d), q = at(f,d-dir*tail);
+        c.moveTo(tr.x+k*q[0], tr.y-k*q[1]); c.lineTo(tr.x+k*p[0], tr.y-k*p[1]);
+      }
+      c.lineCap = 'butt'; c.strokeStyle = '#ffe3c8'; c.globalAlpha = vis*(.5+.48*I); c.lineWidth = Math.max(.9,lineWidth*.75); c.stroke();
+    }
+    if(ch.fuel && L.nat>0.05){
+      worldT(c); c.strokeStyle = MC.red; c.globalAlpha = L.nat*0.9; c.lineWidth = 1.3/k;
+      c.setLineDash([6/k,5/k]); c.lineDashOffset = RM ? 0 : -(tsec*20)/k;
+      FUEL.forEach(f => c.stroke(f.path)); c.setLineDash([]); c.lineDashOffset = 0; screenT(c);
+      FUEL.forEach(f => { const p = at(f,f.len), q = at(f,f.len-1), [ax,ay] = sxy(p[0],p[1]), an = Math.atan2(-(p[1]-q[1]), p[0]-q[0]);
+        c.fillStyle = MC.red; c.beginPath(); c.moveTo(ax,ay); c.lineTo(ax-8*Math.cos(an-0.4), ay-8*Math.sin(an-0.4)); c.lineTo(ax-8*Math.cos(an+0.4), ay-8*Math.sin(an+0.4)); c.closePath(); c.fill(); });
+    }
+    if(L.camp>0.3 && (ch.flows||[]).includes('feed')){
+      const [sx,sy] = sxy(PCC[0],PCC[1]); c.globalAlpha = L.camp; c.fillStyle = MC.white; c.strokeStyle = MC.red; c.lineWidth = 1.3;
+      c.beginPath(); c.arc(sx,sy,3.6,0,Math.PI*2); c.fill(); c.stroke();
+    }
+  }
+  if(hoverD>=0 && L.det>0.4){ worldT(c); c.globalAlpha = 1; c.strokeStyle = MC.red; c.lineWidth = 1.6/k; c.stroke(DIST[hoverD].p); screenT(c); }
+  if(hoverP && L.nat>0.4){ const [sx,sy] = sxy(hoverP.x,hoverP.y); c.globalAlpha = 1; c.strokeStyle = MC.red; c.lineWidth = 1.2; c.beginPath(); c.arc(sx,sy,11,0,Math.PI*2); c.stroke(); }
+}
+
+/* ---------------- graticule, axes, marks ---------------- */
+const letterPx = () => parseFloat(getComputedStyle(document.body).fontSize) || 9.5;
+// Draw each border from the same projected ticks used for the interior grid.
+function drawAxis(id, low, high, project, vertical){
+  const axis = d3.select(id);
+  axis.selectAll('*').remove();
+  const size = vertical ? H : W;
+  const thickness = vertical ? axis.node().clientWidth : axis.node().clientHeight;
+  const fontSize = letterPx();
+  const spacing = clamp(size / 3.7, 90, 235);
+  const step = d3.tickStep(low, high, Math.max(1, size / spacing));
+  const decimals = Math.max(2, -Math.floor(Math.log10(step)));
+  const inset = Math.min(7 + fontSize * .56, thickness - fontSize * .65 - 1);
+  const majorPositions = [], ticks = [];
+  for(let i = Math.ceil(low * 10 / step); i <= Math.floor(high * 10 / step); i++){
+    const value = i * step / 10, pos = project(value), major = i % 10 === 0;
+    const length = major ? 6 : i % 5 === 0 ? 4 : 2;
+    ticks.push(vertical ? `M${thickness},${pos}h-${length}` : `M${pos},0v${length}`);
+    if(!major) continue;
+    majorPositions.push(pos);
+    const suffix = vertical ? (value < 0 ? 'S' : 'N') : (value < 0 ? 'W' : 'E');
+    const label = Math.abs(value).toFixed(decimals) + DEG + suffix;
+    const half = label.length * fontSize * .28 + 2;
+    if(pos < half || pos > size - half) continue;
+    const transform = vertical ? `translate(${thickness-inset},${pos}) rotate(-90)` : `translate(${pos},${inset})`;
+    axis.append('text').attr('transform',transform).attr('text-anchor','middle').attr('dy','.35em').text(label);
+  }
+  axis.append('path').attr('d',ticks.join(''));
+  return majorPositions;
+}
+function drawGrid(){
+  const g = ov.select('g.grid');
+  g.selectAll('*').remove();
+  const k = tr.k;
+  const [west,south] = UNP(-tr.x / k, (tr.y - H) / k);
+  const [east,north] = UNP((W - tr.x) / k, tr.y / k);
+  const xs = drawAxis('#axlon', west, east, v => tr.x + k * (v - M.lon0) * M.kx, false);
+  const ys = drawAxis('#axlat', south, north, v => tr.y - k * (v - M.lat0) * M.ky, true);
+  const grid = xs.map(x => `M${x},0v${H}`).concat(ys.map(y => `M0,${y}h${W}`));
+  g.append('path').attr('class','g').attr('d',grid.join(''));
+  const marks = xs.flatMap(x => ys.map(y => `M${x-2},${y-3}l4,6`));
+  g.append('path').attr('class','crossings').attr('d',marks.join(''));
+}
+function drawMarks(){
+  const ch = CH[cur], list = [], LS = Math.max(10,letterPx()*1.12), cw = LS*0.62;
+  if(L.det>0.5 && !growth.active) DIST.forEach(d => { const [sx,sy] = sxy(d.cx,d.cy); if(inView(sx,sy,10)) list.push({t:pad2(d.id), sx, sy:sy+LS*0.35, anchor:'middle', pri:3}); });
+  if(L.det>.55 && !growth.active && ['camp','hours','kwh'].includes(ch.id)){
+    const [x,y] = sxy(PB.x1,PB.y0);
+    const label = 'Solar plant · 12.9 MWp';
+    if(inView(x,y) && x+8+label.length*cw < W) list.push({t:label,sx:x+8,sy:y+3,pri:5});
+    else if(inView(x,y)) list.push({t:'Solar plant',sx:x,sy:y+LS*1.45,anchor:'end',pri:5});
+  }
+  if(L.nat>0.5) Z.places.forEach(pl => { if(pl.r>1) return; const [sx,sy] = sxy(pl.x,pl.y); if(inView(sx,sy,20)) list.push({t:pl.n, sx:sx+6, sy:sy-4, dot:[sx,sy], pri:1}); });
+  if(ch.marks && !growth.active) ch.marks().forEach(m => { const [sx,sy] = sxy(m.x,m.y); if(!inView(sx,sy,4)) return;
+    list.push({t:m.t, sx:sx+(m.dx||0), sy:sy+(m.dy||0), anchor:m.anchor||'start', dot:m.dot?[sx,sy]:null, pri:m.pri||2}); });
+  const placed = [], keep = [];
+  list.sort((a,b) => b.pri-a.pri).forEach(d => {
+    const w = d.t.length*cw, an = d.anchor||'start';
+    const x0 = an==='end' ? d.sx-w : an==='middle' ? d.sx-w/2 : d.sx, b = [x0, d.sy-LS-1, x0+w, d.sy+3];
+    if(b[0]<3 || b[2]>W-3 || b[1]<3 || b[3]>H-3) return;
+    if(placed.some(p => !(b[2]<p[0] || b[0]>p[2] || b[3]<p[1] || b[1]>p[3]))) return;
+    placed.push(b); keep.push(d);
+  });
+  const g = ov.select('g.marks'); g.selectAll('*').remove();
+  keep.forEach(d => {
+    if(d.dot) g.append('circle').attr('class','pd').attr('cx',d.dot[0]).attr('cy',d.dot[1]).attr('r',2.2);
+    g.append('text').attr('x',d.sx).attr('y',d.sy).attr('text-anchor',d.anchor||'start').text(d.t);
+  });
+}
+
+/* ---------------- notes: scale, position, register, index, sources ---------------- */
+function drawScale(){
+  const svg = d3.select('#scalebar'), box = svg.node().getBoundingClientRect();
+  const available = box.width - 4 * letterPx();
+  if(available <= 0) return;
+  const maxStep = available / (5 * tr.k);
+  const power = 10 ** Math.floor(Math.log10(maxStep));
+  let step = [1, 2, 2.5, 5, 10].filter(m => m * power <= maxStep).pop() * power;
+  // Keep the graduated bar legible when the two instruments share a narrow row.
+  while(step * tr.k < Math.min(available / 3, letterPx() * 3.3)) step *= 2;
+  const seg = step * tr.k, divisions = Math.min(6, Math.floor(available / seg + 1e-8) - 1);
+  const length = (divisions + 1) * seg, start = (box.width - length) / 2, zero = start + seg;
+  const baseline = box.height - 4, barY = baseline - 1.5;
+  const km = step >= 1000, unitName = km ? 'kilometres' : 'metres';
+  const value = n => Number(((km ? step / 1000 : step) * n).toPrecision(5));
+  svg.selectAll('*').remove();
+  svg.attr('viewBox', `0 0 ${box.width} ${box.height}`)
+    .attr('aria-label', `Graphic scale, ${value(1)} ${unitName} per major division`);
+  svg.append('rect').attr('x',start).attr('y',barY).attr('width',length).attr('height',1.5)
+    .attr('stroke','var(--ink)').attr('stroke-width',.65).attr('fill','none');
+  const block = (x,w) => svg.append('rect').attr('x',x).attr('y',barY).attr('width',w).attr('height',1.5).attr('fill','var(--ink)');
+  for(let i = 0; i < 5; i+=2) block(start + seg*i/5, seg/5);
+  for(let i = 0; i < divisions; i+=2) block(zero + i*seg, seg);
+  for(let i = -1; i <= divisions; i++){
+    const x = zero + i * seg;
+    svg.append('line').attr('x1',x).attr('x2',x).attr('y1',baseline+.6).attr('y2',baseline-4)
+      .attr('stroke','var(--ink)').attr('stroke-width',.65);
+    svg.append('text').attr('x',x).attr('y',baseline-5).attr('text-anchor','middle').text(value(Math.abs(i)));
+  }
+  $('#scaletxt').textContent = 'Scale in ' + unitName;
+  $('#contour').textContent = L.det>0.5 ? 'Contour interval 4 metres' : 'Contour interval 100 metres';
+  const [lon,lat] = UNP((W/2-tr.x)/tr.k, (tr.y-H/2)/tr.k);
+  $('#position').textContent = lat.toFixed(2)+DEG+'N / '+lon.toFixed(2)+DEG+'E';
+}
+function renderRows(rows){
+  $('#register tbody').innerHTML = rows.map(([label,value]) => `<tr><th scope="row">${label}</th><td>${value}</td></tr>`).join('');
+}
+function surveyRows(){
+  const e = EXTS.filter(x => x.m<=growth.m).pop();
+  return [['Survey date', monthLabel(growth.m)], ['Structures in survey', fmt(surveyCounts[growth.m])], ['Camp extent', e ? e.ha+' ha' : '—'], ['Source','UNOSAT']];
+}
+function renderSheet(){
+  const ch = CH[cur], n = cur+1;
+  $('#register-title').textContent = ch.title;
+  $('.register-copy').innerHTML = ch.notes.map(t => `<p>${t}</p>`).join('');
+  renderRows(growth.active ? surveyRows() : ch.rows);
+  const symbols = ch.view==='camp' || ch.view==='plant'
+    ? [['power','Modelled supply route'],['boundary','District limit']]
+    : ch.view==='local' ? [['transfer','Modelled 33 kV link'],['gridline','Transmission line']]
+    : [['power','Modelled power route'],['gridline','Transmission line']];
+  if(ch.fuel) symbols.push(['transfer','Fuel import']);
+  $('#line-key').innerHTML = symbols.map(([type,label]) => `<span><i class="${type}" aria-hidden="true"></i>${label}</span>`).join('');
+  $('#sheetname').textContent = 'Sheet '+n+' of '+CH.length+' / '+ch.w;
+  const refs = [...new Set([...ch.src,10,11])];
+  $('#srcs').innerHTML = refs.map(i => `<li><a href="${SOURCES[i][1]}" target="_blank" rel="noopener noreferrer">${SOURCES[i][0]}</a></li>`).join('');
+  $('#srcs').insertAdjacentHTML('beforeend', '<li><a href="https://earth-search.aws.element84.com/v1/collections/sentinel-2-l2a/items/S2A_37SBR_20240603_0_L2A" target="_blank" rel="noopener noreferrer">Modified Copernicus Sentinel data (2024) · 3 June</a></li><li><a href="https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/" target="_blank" rel="noopener noreferrer">NASA Blue Marble · national overview</a></li>');
+  $('#index').innerHTML = CH.map((c,i) => `<button type="button" data-i="${i}" ${i===cur?'aria-current="page"':''} aria-label="Sheet ${i+1}: ${c.title}">${i+1}</button>`).join('');
+  $('#index').querySelectorAll('button').forEach(b => b.addEventListener('click', () => go(+b.dataset.i)));
+}
+
+/* ---------------- time ruler ---------------- */
+const rsv = d3.select('#ruler');
+let RW = 300, RH = 40;
+const rx = h => 4 + h/24*(RW-8);
+function drawRuler(){
+  const b = $('#ruler').getBoundingClientRect(); RW = b.width || 300; RH = b.height || 42;
+  const LS = letterPx();
+  rsv.attr('viewBox', `0 0 ${RW} ${RH}`); rsv.selectAll('*').remove();
+  const defs = rsv.append('defs');
+  defs.append('pattern').attr('id','hatch').attr('width',4).attr('height',4).attr('patternUnits','userSpaceOnUse').attr('patternTransform','rotate(45)')
+    .append('line').attr('x1',0).attr('y1',0).attr('x2',0).attr('y2',4).attr('stroke','var(--ink)').attr('stroke-width',1.1);
+  const yBar = RH*0.42, yHat = yBar + LS*0.75, yLab = RH - 1, top = 2;
+  let d = ''; for(let hh=0; hh<=24.001; hh+=0.1){ d += (hh?'L':'M')+rx(hh).toFixed(1)+','+(yBar-2-(yBar-top-4)*unit(sunElev(hh,S.doy))).toFixed(1); }
+  rsv.append('path').attr('d',d).attr('fill','none').attr('stroke','var(--ink-2)').attr('stroke-width',.8);
+  for(let i=0;i<8;i++) rsv.append('rect').attr('x',rx(i*3)).attr('y',yBar).attr('width',rx(3)-rx(0)).attr('height',Math.max(2.5,LS*0.32)).attr('fill', i%2 ? 'var(--paper)' : 'var(--ink)').attr('stroke','var(--ink)').attr('stroke-width',.6);
+  (mode==='disp' ? [[0,24]] : SCHED).forEach(([a,bb]) => rsv.append('rect').attr('x',rx(a)).attr('y',yHat).attr('width',rx(bb)-rx(a)).attr('height',LS*0.55).attr('fill','url(#hatch)').attr('stroke','var(--ink)').attr('stroke-width',.6));
+  for(let hh=0; hh<=24; hh+=6) rsv.append('text').attr('x',rx(hh)).attr('y',yLab).attr('text-anchor','middle').text(pad2(hh));
+  const g = rsv.append('g').attr('id','rhead');
+  g.append('line').attr('y1',top+4).attr('y2',yHat+LS*0.55).attr('stroke','var(--red)').attr('stroke-width',1.3);
+  g.append('path').attr('d',`M-3.5,${top}L3.5,${top}L0,${top+5}Z`).attr('fill','var(--red)');
+  lastMin = -1;
+}
+let lastMin = -1;
+function updateTime(){
+  const mn = Math.floor(S.h*60); if(mn===lastMin) return; lastMin = mn;
+  d3.select('#rhead').attr('transform',`translate(${rx(S.h)},0)`);
+  $('#clock').textContent = hhmm(S.h);
+  const st = S.on ? (S.exp>0.02 ? 'exporting surplus' : S.imp>0.02 ? 'importing from grid' : 'solar covers draw') : (S.s>0.02 ? 'all PV exported' : 'camp dark');
+  $('#st1').textContent = (S.on ? (mode==='disp' ? 'Dispensers on' : 'Network on') : 'Network off') + ', ' + st;
+  $('#st2').textContent = 'PV ' + S.mw.toFixed(1) + ' MW, model / ' + (mode==='disp' ? 'metered 24 h' : 'schedule May 2024');
+  const r = $('#ruler'); r.setAttribute('aria-valuenow', S.h.toFixed(2)); r.setAttribute('aria-valuetext', hhmm(S.h));
+}
+let running = !RM, rDrag = false;
+const rHour = e => { const r = $('#ruler').getBoundingClientRect(); return clamp((e.clientX - r.left)/r.width*24, 0, 23.99); };
+$('#ruler').addEventListener('pointerdown', e => { rDrag = true; $('#ruler').setPointerCapture(e.pointerId); running = false; cancelIntro(); S.h = rHour(e); lastMin = -1; });
+$('#ruler').addEventListener('pointermove', e => { if(rDrag){ S.h = rHour(e); lastMin = -1; } });
+$('#ruler').addEventListener('pointerup', () => rDrag = false);
+$('#ruler').addEventListener('keydown', e => {
+  if(e.key==='ArrowRight' || e.key==='ArrowUp'){ S.h = (S.h+0.25)%24; running = false; lastMin = -1; e.preventDefault(); e.stopPropagation(); }
+  if(e.key==='ArrowLeft' || e.key==='ArrowDown'){ S.h = (S.h+23.75)%24; running = false; lastMin = -1; e.preventDefault(); e.stopPropagation(); }
+});
+function setMode(m){ if(mode===m) return; mode = m; drawRuler(); }
+
+/* ---------------- hover ---------------- */
+const tip = $('#tip');
+function hideTip(){ tip.hidden = true; hoverD = -1; hoverP = null; }
+cvF.addEventListener('pointermove', e => {
+  if(e.buttons) return;
+  const r = plate.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+  const wx = (mx - tr.x)/tr.k, wy = (tr.y - my)/tr.k;
+  let html = null; hoverD = -1; hoverP = null;
+  if(L.det>0.4){
+    if(pip(wx,wy,C.plant)) html = `<b>Solar plant</b>12.9 MWp, ${C.plantArea_ha} ha, in service Nov 2017`;
+    else { const i = DIST.findIndex(d => pip(wx,wy,d.c)); if(i>=0){ hoverD = i; const d = DIST[i]; html = `<b>District ${pad2(d.id)}</b>${fmt(d.n)} structures, Aug 2016, ${d.ha} ha`; } }
+  } else if(L.nat>0.4){
+    let best = null, bd = 12;
+    PLANTS.forEach(p => { const [sx,sy] = sxy(p.x,p.y), d = Math.hypot(sx-mx, sy-my); if(d<bd){ bd = d; best = p; } });
+    if(best){ hoverP = best; html = `<b>${(best.n || 'Solar field').replace(/\u2019/g,"'")}</b>${SRC[best.s]||'Other'}${best.mw ? ', '+fmt(best.mw)+' MW' : ''}`; }
+  }
+  if(html){ tip.innerHTML = html; tip.hidden = false; tip.style.left = clamp(mx+14, 4, W-tip.offsetWidth-4)+'px'; tip.style.top = clamp(my+14, 4, H-tip.offsetHeight-4)+'px'; }
+  else tip.hidden = true;
+});
+cvF.addEventListener('pointerleave', hideTip);
+
+/* ---------------- navigation ---------------- */
+function go(i, dur){
+  if(i<0 || i>=CH.length) return;
+  cancelIntro();
+  cur = i; const c = CH[i];
+  setMode(c.mode || 'sched');
+  renderSheet();
+  fly(c.view, dur===undefined ? 1800 : dur);
+  dirtyB = dirtyS = dirtyL = true;
+  try { history.replaceState(null, '', '#'+c.id); } catch(e) {}
+}
+document.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('[role="slider"]')) return;
+  if(e.key==='ArrowRight'){ go(cur+1); e.preventDefault(); }
+  else if(e.key==='ArrowLeft'){ go(cur-1); e.preventDefault(); }
+  else if(e.key===' ' && (e.target===document.body || e.target===cvF)){ running = !running; e.preventDefault(); }
+});
+
+/* ---------------- intro: camp growth 2012 to 2016 ---------------- */
+function startGrowth(){
+  growth.active = true; growth.m = 2; growth.reveal = 0; dirtyB = dirtyS = dirtyL = true; renderRows(surveyRows());
+  const t0 = performance.now(), dur = 5200;
+  const step = now => {
+    if(!growth.active) return;
+    const p = clamp((now-t0)/dur, 0, 1), m = Math.round(2 + (MONTH_END-2)*p);
+    if(m!==growth.m){ growth.m = m; dirtyB = dirtyS = true; renderRows(surveyRows()); }
+    if(p<1) growth.timer = requestAnimationFrame(step);
+    else { growth.active = false; dirtyB = dirtyS = dirtyL = true; renderSheet(); revealPanels(); }
+  };
+  growth.timer = requestAnimationFrame(step);
+}
+function revealPanels(){
+  const t0 = performance.now(), dur = 1200;
+  const step = now => { const p = clamp((now-t0)/dur,0,1); growth.reveal = d3.easeCubicOut(p); dirtyB = true; if(p<1) growth.timer = requestAnimationFrame(step); else growth.timer = null; };
+  growth.timer = requestAnimationFrame(step);
+}
+function cancelIntro(){
+  if(growth.timer){ cancelAnimationFrame(growth.timer); growth.timer = null; }
+  if(introTimeout){ clearTimeout(introTimeout); introTimeout = null; }
+  if(growth.active || growth.reveal<1){ growth.active = false; growth.m = MONTH_END; growth.reveal = 1; dirtyB = dirtyS = dirtyL = true; renderSheet(); }
+}
+
+/* ---------------- main loop ---------------- */
+let lastT = performance.now();
+function frame(now){
+  const dt = Math.min(0.1, (now-lastT)/1000); lastT = now;
+  if(running && !growth.active) S.h = (S.h + dt*0.6) % 24;   // a day in 40 s
+  updateState();
+  if(S.on && !prevOn) flickerT = now;
+  prevOn = S.on;
+  if(flickerT && now-flickerT < 480 && !RM) litLevel = [0.2,0.85,0.1,0.6,1,1][Math.floor((now-flickerT)/80)];
+  else litLevel += ((S.on?1:0) - litLevel)*Math.min(1, dt*6);
+  if(dirtyB){ drawBase(); dirtyB = false; }
+  if(dirtyS){ drawShelters(); dirtyS = false; }
+  if(dirtyL){ drawMarks(); drawGrid(); drawScale(); dirtyL = false; }
+  cvL.style.opacity = growth.active ? 0 : litLevel.toFixed(3);
+  drawFX(now);
+  updateTime();
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- boot ---------------- */
+cur = Math.max(0, CH.findIndex(c => '#'+c.id===location.hash));
+mode = CH[cur].mode || 'sched';
+renderSheet();
+updateState();
+updateTime();
+function relayout(){ fitSheet(); dirtyL = true; }
+relayout();
+new ResizeObserver(() => resize()).observe(plate);
+new ResizeObserver(() => {
+  if(sheet.hasAttribute('data-foot')) relayout();
+}).observe(noteSpace);
+let rzT = null;
+addEventListener('resize', () => { clearTimeout(rzT); rzT = setTimeout(relayout, 60); });
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+const r0 = plate.getBoundingClientRect(); W = Math.max(10, r0.width); H = Math.max(10, r0.height);
+resize();
+loadImagery();
+if(cur===0 && !RM){
+  zsel.call(zoom.transform, fitT('jordan'));
+  growth.active = true; growth.m = 2; growth.reveal = 0; renderRows(surveyRows());
+  introTimeout = setTimeout(() => { introTimeout = null; fly('camp', 2800, () => { if(growth.active) startGrowth(); }); }, 700);
+} else {
+  zsel.call(zoom.transform, fitT(CH[cur].view));
+}
+requestAnimationFrame(frame);
+})();
+</script>

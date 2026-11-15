@@ -1,0 +1,171 @@
+@font-face {
+  font-family: ChartBarlow;
+  src: url("assets/fonts/barlow-medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: ChartBarlow;
+  src: url("assets/fonts/barlow-bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+:root {
+  color-scheme: light;
+  --paper: #fff;
+  --ink: #232321;
+  --red: #983b35;
+  --red-rule: #c99b96;
+  --faint-rule: #e4ccc9;
+  --type: ChartBarlow, Arial, sans-serif;
+  --letter: clamp(9px, calc(7.15px + .26vmin), 10px);
+  --edge: clamp(28px, 4.8vmin, 80px);
+  --gutter: clamp(26px, 6.2vmin, 84px);
+  --rail: clamp(290px, 30vw, 510px);
+  --side: min(calc(100dvh - 2 * var(--edge)), calc(100vw - 2 * var(--edge) - var(--rail) - var(--gutter)));
+}
+* { box-sizing: border-box }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 var(--letter)/1.35 var(--type);
+  font-variant-numeric: lining-nums tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, figure { margin: 0 }
+h1, h2, h3, a, th, td, button { font: inherit; color: inherit }
+button { padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent }
+a { text-decoration: none; text-underline-offset: .18em }
+a:hover { color: var(--red); text-decoration: underline }
+:focus-visible { outline: 1px solid var(--red); outline-offset: 3px }
+::selection { color: var(--paper); background: var(--red) }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%) }
+.sheet {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--edge);
+}
+.composition {
+  display: grid;
+  grid-template-columns: minmax(0, var(--side)) minmax(0, var(--rail));
+  align-items: center;
+  column-gap: var(--gutter);
+  min-width: 0;
+}
+.plate, .rail, .plates, .measurement, .register { min-width: 0 }
+.plate { width: 100%; align-self: center }
+.map { width: 100%; aspect-ratio: 1; position: relative; isolation: isolate; touch-action: pan-y }
+.map:focus-visible { outline-offset: 3px }
+.map[data-zoomed] { cursor: grab; touch-action: none }
+.map[data-dragging], .map[data-dragging] * { cursor: grabbing !important }
+.drawing { display: block; width: 100%; height: 100%; overflow: visible; user-select: none; -webkit-user-select: none }
+.drawing image { pointer-events: none }
+.graticule { fill: none; stroke: white; stroke-opacity: .46; pointer-events: none }
+.graticule path { vector-effect: non-scaling-stroke; stroke-width: .47px }
+.connections, .axes, .leader { fill: none; pointer-events: none }
+.connections path, .marks path, .leader, .axes path { vector-effect: non-scaling-stroke }
+.link-case { stroke: #fffcf7; stroke-opacity: .85; stroke-width: 2.5px }
+.connection { stroke: var(--red); stroke-width: 1.15px; stroke-dasharray: 5 2.3 }
+.direction { fill: var(--red); stroke: white; stroke-width: .6px; stroke-linejoin: round }
+.region-mark {
+  fill: #b14d46; fill-opacity: .38; stroke: #fbefea; stroke-width: .85px;
+  stroke-linejoin: round; fill-rule: evenodd; cursor: pointer;
+}
+.region-mark.active { fill-opacity: .65; stroke: white; stroke-width: 1.3px }
+.city-mark { cursor: pointer }
+.point-case { fill: #fff }
+.point-core { fill: var(--red) }
+.city-mark.active .point-case { stroke: var(--red); stroke-width: .9px }
+.leader { stroke: #fff; stroke-opacity: .94; stroke-width: .7px }
+.map-label {
+  fill: white; stroke: #262521; stroke-width: 2px; stroke-linejoin: round;
+  paint-order: stroke fill; font: 500 var(--map-letter, 14px)/1 var(--type); cursor: pointer;
+}
+.map-label:hover, .annotation.active .map-label { text-decoration: underline }
+.axes path { stroke: #77726e; stroke-width: .5px }
+.axes text { fill: var(--ink); font: 500 var(--map-letter, 14px)/1 var(--type) }
+[hidden], .print-note { display: none }
+.rail { text-align: center; width: 100%; min-width: 0 }
+.measurement { width: min(100%, 34em); margin: 0 auto }
+.measurement h3, .chooser caption, .chooser th, .story h2, .colophon h1 {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.scale { width: 100%; height: 2.5em; display: block }
+.scale text { font-family: var(--type); fill: var(--ink) }
+.note-grid {
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: clamp(15px,2.2vw,42px); align-items: center; margin: 3.1em auto 2.7em;
+}
+.story h2 { font-weight: 700; margin-bottom: .65em }
+.memory { text-align: left; line-height: 1.45; text-wrap: pretty }
+.reference { margin-top: .55em; font-size: inherit }
+.reference a:hover, .sources a:hover { color: var(--red) }
+summary { cursor: pointer; color: var(--red); text-align: left; min-height: 1.8em }
+details { margin-top: 1em }
+details[open] summary { margin-bottom: .4em }
+.chooser, .register { min-width: 0; color: var(--red) }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid var(--red-rule); text-align: center }
+caption { border: 1px solid var(--red-rule); border-bottom: 0; padding: .38em .12em }
+th,td { font: inherit; padding: .28em .18em; line-height: 1.3 }
+th { border-bottom: 1px solid var(--red-rule) }
+td+td,th+th { border-left: 1px solid var(--faint-rule) }
+.chooser td { padding: 0 }
+.chooser td + td { padding: .24em .16em }
+.chooser a { display: block; padding: .38em .15em }
+.chooser tr:has([aria-current=true]) { background: #f7eae7 }
+.chooser a[aria-current=true] { text-decoration: underline; text-underline-offset: .18em }
+.chooser tbody tr:focus-within, .chooser tbody tr:hover, .register tbody tr:hover, .register tr[aria-current="true"] { background: #f8eeeb }
+.chooser tbody tr, .register tbody tr { cursor: pointer }
+.register button { display: block; width: 100% }
+.order { margin-right: .4em }
+.symbols { display: flex; gap: .6em 1.5em; flex-wrap: wrap; justify-content: center }
+.symbols span { display: inline-flex; align-items: center; gap: .45em }
+.city-key { width: .55em; height: .55em; border-radius: 50%; background: var(--red) }
+.country-key { width: 1em; height: .7em; border: 1px solid var(--red); background: #e4c4be }
+.link-key { width: 1.4em; border-top: 1px dashed var(--red) }
+.sources { margin: .8em auto 0; text-wrap: balance }
+.colophon { margin: 2.8em auto 0 }
+.colophon h1 { font-weight: 700; text-wrap: balance; margin-bottom: .35em }
+@media (max-aspect-ratio: 13/10) {
+  :root { --rail: min(100%, 560px); --side: min(100%, 76dvh); --edge: clamp(22px,4.5vw,46px) }
+  .composition { width: 100%; justify-items: center; grid-template-columns: minmax(0,1fr); gap: 3.2em }
+  .plates { width: min(100%, max(32dvh, calc(100dvh - var(--notes-height, 32em) - 3.2em - 2 * var(--edge) - 1px))) }
+  .rail { width: var(--rail) }
+  .note-grid { margin: 1.8em auto; gap: clamp(18px,5vw,38px) }
+  .colophon { margin-top: 1.7em }
+}
+@media (max-width: 540px) and (orientation: portrait) {
+  :root { --letter: 11px; --edge: 23px }
+  .plates { width: min(100%, max(210px, calc(100dvh - var(--notes-height, 32em) - 3.2em - 2 * var(--edge) - 1px))) }
+  .sheet { align-content: center }
+  .note-grid { grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); gap: 14px }
+  .chooser a { padding-block: .65em }
+}
+@media (orientation: landscape) and (max-height: 540px) {
+  :root { --edge: 16px; --rail: clamp(205px,48vw,400px); --gutter: 25px }
+  .note-grid { margin: 1.3em auto; gap: 12px }
+  .colophon { margin-top: 1.4em }
+}
+/* The printed plate shows the complete triptych at a single geographic scale. */
+.overview { --letter: 12px }
+.overview .sheet { padding: 4vh 6vw; min-height: 100vh }
+.overview .composition { width: 100%; display: block }
+.overview .plates { width: 100%; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 4vw }
+.overview .print-note { display: block; width: 89%; margin: 2.45em auto 0; text-align: center }
+.overview .print-note .memory { max-width: 36em; margin-inline: auto }
+.overview .rail { width: 100%; margin: 2.6em auto 0 }
+.overview .note-grid { display: none }
+.overview .measurement { width: 20em; margin-bottom: .8em }
+.overview .colophon { margin-top: 1.3em }
+@media print {
+  @page { size: landscape; margin: 0 }
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact }
+  .overview { --letter: 7pt }
+  .overview .sheet { padding: 4mm 11mm; min-height: 97vh }
+  .overview .plates { gap: 8mm }
+  .overview .composition { break-inside: avoid }
+}

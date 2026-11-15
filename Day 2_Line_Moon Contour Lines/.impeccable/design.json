@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-12T07:46:41+00:00",
+  "title": "LUNAR CONTOUR LINES",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Chart paper",
+        "tonalRamp": [
+          "oklch(15% 0.004 80)",
+          "oklch(26% 0.004 80)",
+          "oklch(38% 0.004 80)",
+          "oklch(49% 0.004 80)",
+          "oklch(61% 0.004 80)",
+          "oklch(72% 0.004 80)",
+          "oklch(84% 0.004 80)",
+          "oklch(95% 0.004 80)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Printing ink",
+        "tonalRamp": [
+          "oklch(15% 0.004 120)",
+          "oklch(26% 0.004 120)",
+          "oklch(38% 0.004 120)",
+          "oklch(49% 0.004 120)",
+          "oklch(61% 0.004 120)",
+          "oklch(72% 0.004 120)",
+          "oklch(84% 0.004 120)",
+          "oklch(95% 0.004 120)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Cartographic red",
+        "tonalRamp": [
+          "oklch(15% 0.13 32)",
+          "oklch(26% 0.13 32)",
+          "oklch(38% 0.13 32)",
+          "oklch(49% 0.13 32)",
+          "oklch(61% 0.13 32)",
+          "oklch(72% 0.13 32)",
+          "oklch(84% 0.13 32)",
+          "oklch(95% 0.13 32)"
+        ]
+      },
+      "secondary": {
+        "role": "neutral",
+        "displayName": "Margin gray",
+        "tonalRamp": [
+          "oklch(15% 0.01 125)",
+          "oklch(26% 0.01 125)",
+          "oklch(38% 0.01 125)",
+          "oklch(49% 0.01 125)",
+          "oklch(61% 0.01 125)",
+          "oklch(72% 0.01 125)",
+          "oklch(84% 0.01 125)",
+          "oklch(95% 0.01 125)"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule gray",
+        "tonalRamp": [
+          "oklch(15% 0.01 106)",
+          "oklch(26% 0.01 106)",
+          "oklch(38% 0.01 106)",
+          "oklch(49% 0.01 106)",
+          "oklch(61% 0.01 106)",
+          "oklch(72% 0.01 106)",
+          "oklch(84% 0.01 106)",
+          "oklch(95% 0.01 106)"
+        ]
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "Landmark flight",
+        "value": "460–1150ms",
+        "purpose": "Centers the selected feature and frames its diameter. Reduced motion positions the view immediately."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "Side notes",
+        "value": "min-aspect-ratio: 13/10, or landscape with height ≤ 460px"
+      },
+      {
+        "name": "Three-column lower notes",
+        "value": "445px note area"
+      },
+      {
+        "name": "Narrow notes",
+        "value": "290px note area"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "External coordinates",
+      "kind": "snippet",
+      "description": "A geographic axis label on chart paper.",
+      "html": "<span class=\"axis-sample\">44.00°S</span>",
+      "css": ".axis-sample{background:#fff;color:#444;font:500 var(--letter) ChartBarlow,Arial,sans-serif}",
+      "refersTo": "axis"
+    },
+    {
+      "name": "Feature coordinates",
+      "kind": "snippet",
+      "description": "Uniform latitude and longitude readouts.",
+      "html": "<table class=\"register-sample\"><tr><td>Tycho</td><td>43.30°S</td><td>11.22°W</td></tr></table>",
+      "css": ".register-sample{font:500 var(--letter) ChartBarlow,Arial,sans-serif;color:#983b35;border-collapse:collapse}.register-sample td{padding:.09em .32em;border:1px solid #c99b96}",
+      "refersTo": "register"
+    }
+  ],
+  "narrative": {
+    "northStar": "A square lunar engineering plate",
+    "overview": "A centered square lunar chart with generous gutters and a signed, centered uppercase title. Portrait and near-square displays use a lower legend. Wide screens balance the map with side notes."
+  }
+}

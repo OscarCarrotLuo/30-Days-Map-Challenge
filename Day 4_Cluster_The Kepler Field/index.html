@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>THE KEPLER FIELD · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/catalogue.js"></script>
+  <script defer src="chart.js"></script>
+</head>
+<body>
+<main class="sheet" aria-labelledby="sheet-title">
+  <figure class="plate" aria-label="Star chart of confirmed exoplanet hosts in the original Kepler field">
+    <div class="map" id="map" role="region" tabindex="0" aria-label="Interactive equatorial star chart" aria-describedby="instructions">
+      <span class="sr-only" id="instructions">Drag or use the arrow keys to move. Scroll, pinch, or use plus and minus to zoom. Select a host star on the chart or in the index to inspect its planets. The two sky diagrams change the view. Home restores the Kepler field.</span>
+      <canvas id="sky" aria-hidden="true"></canvas>
+      <img hidden id="sky-texture" src="assets/sky.webp" alt="">
+      <img hidden id="field-texture" src="assets/cygnus.webp" alt="">
+    </div>
+    <canvas class="axis longitude" id="right-ascension" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="declination" aria-hidden="true"></canvas>
+    <output id="load-status" role="status">Loading star chart…</output>
+    <noscript><p>This interactive star chart requires JavaScript. The accompanying PNG contains the complete plate.</p></noscript>
+  </figure>
+
+  <div class="note-space">
+    <aside class="notes" aria-label="Sky chart marginalia">
+      <section class="measurement" aria-label="Angular scale and celestial coordinates">
+        <h2>Angular scale in degrees</h2>
+        <canvas id="scale" aria-label="Angular scale at the map center"></canvas>
+        <p>Equatorial coordinates · J2000</p>
+      </section>
+
+      <section class="locator" aria-label="All-sky and Kepler field locators">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button type="button" class="hemisphere" id="all-sky" aria-label="Show the all-sky distribution of exoplanet hosts" title="Show the all-sky distribution">
+            <span class="globe all-sky-globe"><canvas aria-hidden="true"></canvas></span>
+            <span>All sky</span>
+          </button>
+          <button type="button" class="hemisphere" id="kepler-field" aria-label="Return to the Kepler field" title="Return to the Kepler field">
+            <span class="globe"><canvas aria-hidden="true"></canvas></span>
+            <span>Kepler field</span>
+          </button>
+        </div>
+        <div class="center-field"><h2>Map center</h2><p id="position"></p></div>
+      </section>
+
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Index of host stars</h2>
+        <div class="register-scroll" tabindex="0" role="region" aria-labelledby="register-heading">
+          <table aria-labelledby="register-heading">
+            <thead><tr><th scope="col">Host</th><th scope="col">R.A.</th><th scope="col">Planets</th></tr></thead>
+            <tbody id="host-rows"></tbody>
+          </table>
+        </div>
+        <div class="object-readout" id="object-readout" aria-live="polite" hidden></div>
+      </section>
+
+      <section class="field-record" aria-label="Kepler observing program and archive counts">
+        <h2><a href="https://science.nasa.gov/mission/kepler/" target="_blank" rel="noopener noreferrer">Kepler prime · 2009–2013</a></h2>
+        <p>Kepler watched ~150,000 stars in one field for repeated dips in brightness.</p>
+        <dl>
+          <div><dt>Four-season sky area</dt><dd id="sky-share"></dd></div>
+          <div><dt>Planets in field</dt><dd id="field-count"></dd></div>
+          <div><dt>Share of archive</dt><dd id="archive-share"></dd></div>
+        </dl>
+      </section>
+
+      <section class="symbols" aria-label="Star chart symbols">
+        <h2>Map symbols</h2>
+        <ul>
+          <li><i class="symbol-host" aria-hidden="true"></i><span>Kepler discovery host</span></li>
+          <li><i class="symbol-other" aria-hidden="true"></i><span>Other discovery host</span></li>
+          <li><i class="symbol-field" aria-hidden="true"></i><span>Kepler detectors · spring</span></li>
+        </ul>
+      </section>
+      <section class="sources" aria-label="Source data and archive retrieval date">
+        <h2>Data sources</h2>
+        <ul>
+          <li><a href="https://exoplanetarchive.ipac.caltech.edu/docs/API_PSCompPars_columns.html" target="_blank" rel="noopener noreferrer">NASA Exoplanet Archive · <time id="snapshot-date"></time></a></li>
+          <li><a href="https://archive.stsci.edu/missions-and-data/kepler/field" target="_blank" rel="noopener noreferrer">MAST · four-season footprints</a></li>
+          <li><a href="https://svs.gsfc.nasa.gov/4851/" target="_blank" rel="noopener noreferrer">NASA SVS / E. Wright · Deep Star Maps</a></li>
+          <li><a href="https://simbad.cfa.harvard.edu/simbad/" target="_blank" rel="noopener noreferrer">CDS / SIMBAD · reference stars</a></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">THE KEPLER FIELD</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+</body>
+</html>

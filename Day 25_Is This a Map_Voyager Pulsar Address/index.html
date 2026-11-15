@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>An Address for a Reader Who Has Never Seen Earth · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/engraving.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="30 Day Map Challenge, Day 25, Is this a map?">
+  <figure class="plate" aria-label="Voyager pulsar map and Galactic plane coordinates">
+    <svg id="map" viewBox="0 0 1000 1000" tabindex="0" role="group" aria-labelledby="map-title" aria-describedby="map-help">
+      <title id="map-title">The fourteen pulsar rays on the Voyager Golden Record cover</title>
+      <desc id="map-help">Each marked ray carries a pulsar period. The plain horizontal line points toward the Galactic centre. Read Detail A in the margin. Drag or use the arrow keys to pan when zoomed in. Scroll, pinch or use plus and minus to zoom. Home restores the full engraving.</desc>
+      <image id="field-photo" href="assets/cover-field.webp" width="1000" height="1000"/>
+      <g id="grid" class="grid" aria-hidden="true"></g>
+      <g id="baseline" class="ordinary" aria-label="Galactic centre reference"></g>
+      <g id="rays" aria-label="Fourteen pulsar rays"></g>
+      <path id="return-line" pathLength="1" aria-hidden="true"/>
+      <g id="annotations" aria-hidden="true"></g>
+      <g id="detail-target" class="map-action" role="button" tabindex="0" aria-label="Read Detail A in the margin"></g>
+      <g id="origin-target" class="map-action" role="button" tabindex="-1" aria-label="Trace the identified ray to the common origin" aria-hidden="true"></g>
+    </svg>
+    <svg id="axes" aria-hidden="true"></svg>
+    <figcaption>Galactic plane · Sun–centre distance = 100%</figcaption>
+  </figure>
+
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="reader" aria-labelledby="reader-heading">
+        <h2 id="reader-heading">Read detail A</h2>
+        <div id="word" class="word" role="img" aria-label="Detail A, twenty-seven marks read outward from the Sun"></div>
+        <p class="mark-key"><span class="along" aria-hidden="true"></span> Along the ray = 0 <span class="across" aria-hidden="true"></span> Across the ray = 1</p>
+        <div class="workbench">
+          <form id="decode" autocomplete="off" novalidate>
+            <label for="last-bits">Enter the last four marks</label>
+            <input id="last-bits" name="bits" type="text" inputmode="numeric" maxlength="4" pattern="[01]{4}" spellcheck="false" autocapitalize="off" placeholder="····" aria-describedby="message">
+            <button class="text-action" type="submit">Check bits</button>
+          </form>
+          <p id="calculation" hidden></p>
+          <div class="feedback"><span id="message" role="status" aria-live="polite" aria-atomic="true">Read outward from the centre.</span> <button type="button" class="text-action" id="trace" hidden>Trace to origin</button><button type="button" class="text-action" id="again" hidden>Read again</button></div>
+        </div>
+      </section>
+
+      <section class="references" aria-labelledby="references-heading">
+        <h2 id="references-heading">Cover references</h2>
+        <div class="miniatures">
+          <figure class="miniature">
+            <span class="cover-location"><img src="assets/cover-locator.webp" width="260" height="260" alt="The full Voyager cover with the pulsar engraving marked at lower left"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="19" y="51" width="52" height="36"/><path d="M29.5 71.2h6.2m-3.1-3.1v6.2"/></svg></span>
+            <figcaption>Record cover</figcaption>
+          </figure>
+          <figure class="miniature">
+            <svg class="atom" viewBox="0 0 112 60" role="img" aria-label="The two hyperfine states of neutral hydrogen. The period of the emitted radio wave is the time unit.">
+              <g fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="29" r="18"/><circle cx="88" cy="29" r="18"/>
+                <path d="M45 29h22m-11 3v6M24 14V8m0 21v11m64-26V8m0 21V18"/>
+              </g>
+              <g fill="currentColor"><circle cx="24" cy="15" r="1.65"/><circle cx="24" cy="28" r="2.1"/><circle cx="88" cy="15" r="1.65"/><circle cx="88" cy="28" r="2.1"/></g>
+            </svg>
+            <figcaption>Hydrogen clock</figcaption>
+          </figure>
+        </div>
+        <p class="unit">One hydrogen cycle ≈ 0.704024 ns</p>
+      </section>
+
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Match the pulse period</h2>
+        <table aria-labelledby="register-heading" aria-describedby="epoch">
+          <thead><tr><th scope="col">Pulsar</th><th scope="col">Period (ms)</th></tr></thead>
+          <tbody id="candidates"></tbody>
+        </table>
+        <p id="epoch">Periods at the 1970–71 epoch</p>
+      </section>
+      <section class="sources">
+        <h2>Sources</h2>
+        <ul>
+          <li><a href="https://science.nasa.gov/mission/voyager/golden-record-cover/" target="_blank" rel="noopener noreferrer">NASA/JPL · Voyager cover, 1977</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Voyager_Golden_Record_Cover_Explanation.svg" target="_blank" rel="noopener noreferrer">Voyager cover · line drawing</a></li>
+          <li><a href="https://www.professores.uff.br/ricardobasbaum/wp-content/uploads/sites/164/2021/04/Pioneer_Plaque_sagan1972.pdf" target="_blank" rel="noopener noreferrer">Sagan et al. (1972) · Table 1</a></li>
+        </ul>
+      </section>
+      <header class="imprint">
+        <h1 id="sheet-title">An Address for a Reader Who Has Never Seen Earth</h1>
+        <p>Peirong Luo Oscar</p>
+      </header>
+    </aside>
+  </div>
+</main>
+</body>
+</html>

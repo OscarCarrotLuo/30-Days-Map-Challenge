@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>LUNAR CONTOUR LINES · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="atlas.css">
+  <script defer src="assets/places.js"></script>
+  <script defer src="atlas.js"></script>
+</head>
+<body>
+<main class="sheet" aria-label="Lunar contour sheet">
+  <figure class="plate" aria-label="Lunar terrain with geographic graticule">
+    <div class="map" id="map" role="region" tabindex="0" aria-label="Interactive lunar terrain" aria-describedby="instructions">
+      <span class="sr-only" id="instructions">Drag or use the arrow keys to pan. Scroll, pinch, or use the plus and minus keys to zoom. Home returns to Tycho.</span>
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <canvas id="linework" aria-hidden="true"></canvas>
+      <div id="map-labels" class="map-labels" aria-label="Named lunar features"></div>
+    </div>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="load-status" role="status">Loading terrain…</output>
+  </figure>
+  <div class="note-space">
+    <aside class="notes" aria-labelledby="sheet-title">
+      <section class="measurement" aria-label="Graphic scale and contour interval">
+        <h2>Scale in kilometres</h2>
+        <canvas id="scale" aria-label="Graphic scale at map center"></canvas>
+        <p>Contour interval <span id="interval">500 metres</span></p>
+      </section>
+      <section class="locator" aria-label="Hemisphere locator">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button class="hemisphere" id="near-side" type="button" aria-label="Navigate on the near side">
+            <span class="globe"><img src="assets/near.png" alt=""><canvas aria-hidden="true"></canvas></span>
+            <span>Near side</span>
+          </button>
+          <button class="hemisphere" id="far-side" type="button" aria-label="Navigate on the far side">
+            <span class="globe"><img src="assets/far.png" alt=""><canvas aria-hidden="true"></canvas></span>
+            <span>Far side</span>
+          </button>
+        </div>
+        <div class="center-field"><h2>Map center</h2><p id="position"></p></div>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Index of lunar features</h2>
+        <div class="register-scroll" tabindex="0" role="region" aria-labelledby="register-heading">
+          <table aria-labelledby="register-heading">
+            <thead><tr><th scope="col">Feature</th><th scope="col">Lat.</th><th scope="col">Long.</th></tr></thead>
+            <tbody id="feature-rows"></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="sources"><h2>Data sources</h2>
+        <ul>
+          <li><a href="https://data.lroc.im-ldi.com/lroc/view_rdr/WAC_GLOBAL/" target="_blank" rel="noopener noreferrer">LROC WAC Global Mosaic</a></li>
+          <li><a href="https://pgda.gsfc.nasa.gov/products/54" target="_blank" rel="noopener noreferrer">LOLA / SELENE · SLDEM2015</a></li>
+          <li><a href="https://svs.gsfc.nasa.gov/4720/" target="_blank" rel="noopener noreferrer">NASA SVS · CGI Moon Kit</a></li>
+          <li><a href="https://planetarynames.wr.usgs.gov/GIS_Downloads" target="_blank" rel="noopener noreferrer">IAU / USGS Gazetteer</a></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">LUNAR CONTOUR LINES</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+</body>
+</html>
