@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>How Closely Do We Trace the Same Crater? · Peirong Luo Oscar</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../Day 2_Line_Moon Contour Lines/atlas.css">
+  <link rel="stylesheet" href="sheet.css">
+  <script defer src="assets/catalogue.js"></script>
+  <script defer src="sheet.js"></script>
+</head>
+<body>
+<main class="sheet" aria-labelledby="sheet-title">
+  <figure class="plate" aria-label="Moon Zoo crater survey in Taurus–Littrow Valley, near the Apollo 17 landing site">
+    <div class="map" id="map" role="region" tabindex="0" aria-describedby="instructions" aria-label="Interactive map of volunteer marks and expert crater rims">
+      <span class="sr-only" id="instructions">Drag or use the arrow keys to pan. Scroll, pinch, or use plus and minus to zoom. Home restores the opening view. Select a named crater in the index to inspect it. Point to a ring for its diameter, or use the bracket keys to inspect the selected crater’s associated marks.</span>
+      <img id="photo" hidden src="assets/taurus-littrow.webp" alt="">
+      <canvas id="terrain" aria-hidden="true"></canvas>
+      <output id="map-tip" hidden></output>
+    </div>
+    <canvas class="axis longitude" id="longitude" aria-hidden="true"></canvas>
+    <canvas class="axis latitude" id="latitude" aria-hidden="true"></canvas>
+    <output id="load-status" role="status">Loading lunar imagery…</output>
+    <noscript>The map requires JavaScript. The companion PNG contains the complete sheet.</noscript>
+  </figure>
+
+  <div class="note-space">
+    <aside class="notes" aria-label="Cartographic marginalia">
+      <section class="measurement">
+        <h2>Scale in metres</h2>
+        <canvas id="scale" aria-label="Graphic scale at map center"></canvas>
+        <div class="layers" aria-label="Map layers">
+          <button id="volunteer-layer" type="button" aria-pressed="true" title="Toggle individual volunteer marks"><i aria-hidden="true"></i>Volunteer mark</button>
+          <button id="expert-layer" type="button" aria-pressed="true" title="Toggle expert rims"><i aria-hidden="true"></i>Expert rim</button>
+        </div>
+      </section>
+      <section class="locator">
+        <h2>Location diagram</h2>
+        <div class="hemispheres">
+          <button class="hemisphere" id="home" type="button" aria-label="Return to the opening view at Camelot" title="Return to Camelot">
+            <span class="globe"><img id="near-photo" src="../Day 2_Line_Moon Contour Lines/assets/near.png" alt=""><canvas id="near-grid" aria-hidden="true"></canvas></span>
+            <span>Near side</span>
+          </button>
+          <button class="hemisphere" id="overview" type="button" aria-label="Show the full Apollo 17 survey window" title="Show the survey window">
+            <span class="globe"><canvas id="survey-window" aria-hidden="true"></canvas></span>
+            <span>Apollo 17</span>
+          </button>
+        </div>
+        <div class="center-field"><h2>Map center</h2><p id="position"></p></div>
+      </section>
+      <section class="register" aria-labelledby="register-heading">
+        <h2 id="register-heading">Crater agreement</h2>
+        <div class="register-scroll" tabindex="0" role="region" aria-labelledby="register-heading">
+          <table aria-label="Named craters, associated volunteer marks, and median area overlap with the expert disk">
+            <thead><tr><th scope="col">Crater</th><th scope="col">Marks</th><th scope="col" title="Median intersection over union">Median overlap</th></tr></thead>
+            <tbody id="feature-rows"></tbody>
+          </table>
+        </div>
+        <p class="reading" id="reading" aria-live="polite"></p>
+      </section>
+      <section class="sources">
+        <h2>Data sources</h2>
+        <ul>
+          <li><a href="https://github.com/zooniverse/moonzoodata/tree/master/public/files" target="_blank" rel="noopener noreferrer">Moon Zoo · Apollo 17 crater counts</a></li>
+          <li><a href="https://data.lroc.im-ldi.com/lroc/view_rdr/NAC_ROI_APOLLO17LOB" target="_blank" rel="noopener noreferrer">LROC NAC · Low-Sun Mosaic B</a></li>
+          <li><a href="https://planetarynames.wr.usgs.gov/Feature/984" target="_blank" rel="noopener noreferrer">IAU / USGS · Gazetteer</a></li>
+          <li><button class="method-link" id="open-method" type="button">Registration &amp; overlap</button></li>
+        </ul>
+      </section>
+      <section class="imprint">
+        <h1 id="sheet-title">HOW CLOSELY DO WE TRACE THE SAME CRATER?</h1>
+        <p>Peirong Luo Oscar</p>
+      </section>
+    </aside>
+  </div>
+</main>
+<dialog id="method" aria-labelledby="method-title">
+  <header><h2 id="method-title">Registration &amp; overlap</h2><form method="dialog"><button autofocus>Close</button></form></header>
+  <p>Each blue ring reproduces a published Moon Zoo mark from the pre-clustering file <em>715_871_pre.csv</em>. The archive retains 51,597 marks from participants with at least 20 annotations. Each orange circle uses the center and radius in Roberto Bugiolacchi’s 2,602-entry <em>Expert_RB.csv</em> survey.</p>
+  <p>The 4.92 km square uses a separate LROC controlled mosaic at 1.20 m per pixel. Both catalogs share one approximate registration to the mosaic. The Apollo 17 lunar module in frame M104311715RE provides the tie point. Its published position, 30.768°E, 20.195°N, shifts to 30.7723°E, 20.1911°N. This common translation preserves the relative positions of all marks. Local image offsets remain possible.</p>
+  <p>The source has no crater or participant IDs for individual marks. The table associates a mark with the nearest expert center when it falls within half that expert radius. This rule uses center distance alone. Every published ring crossing the mapped window remains visible, including marks outside these groups.</p>
+  <p>Overlap is the median, across the associated marks, of the area shared by the volunteer and expert disks divided by their combined area. Identical disks score 100%. Both center displacement and diameter affect the result. The diameter readout gives the expert diameter and the median volunteer diameter.</p>
+  <p class="references"><a href="https://doi.org/10.1016/j.icarus.2016.01.021" target="_blank" rel="noopener noreferrer">Bugiolacchi et al. (2016), Icarus, Table 1</a><br><a href="https://nssdc.gsfc.nasa.gov/planetary/lunar/lunar_sites.html" target="_blank" rel="noopener noreferrer">NASA · Apollo landing site coordinates</a><br><a href="https://svs.gsfc.nasa.gov/4720/" target="_blank" rel="noopener noreferrer">NASA SVS · Lunar locator imagery</a></p>
+</dialog>
+</body>
+</html>
